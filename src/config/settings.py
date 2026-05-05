@@ -1,6 +1,5 @@
 """
 Configurações globais, mapeamentos de métricas e constantes do projeto.
-Responsabilidade: Centralizar configurações para facilitar alterações (OCP/SOLID).
 """
 
 # Mapeamento entre nomes amigáveis e strings internas do scikit-learn

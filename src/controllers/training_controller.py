@@ -61,10 +61,11 @@ class TrainingController:
 
         total_minutes = (time.time() - start_time) / 60
         self.view.print_training_summary(
-            all_metrics, all_reports, all_params, random_states, total_minutes, self.metric_focus
+            all_metrics, all_reports, all_params, random_states, self.metric_focus
         )
 
         avg_report = self.metrics_handler.compute_average_report(all_reports)
         print(f"\n{'='*60}\nCLASSIFICATION REPORT (MÉDIA GERAL)\n{'='*60}")
         print(avg_report)
         print("=" * 60)
+        print(f"Tempo gasto em minutos: {total_minutes:.2f}")

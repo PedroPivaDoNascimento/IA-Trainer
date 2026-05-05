@@ -24,8 +24,8 @@ class Trainer:
         """
         self.metric_focus = metric_focus
         self.param_grid = ModelConfig.get_param_grid()
-        self.refit_metric = METRIC_SCORING_MAP[metric_focus]
-        self.scoring = SCORING_PIPELINE_MAP
+        self.refit_metric = METRIC_SCORING_MAP[metric_focus] # Metrica que o treinamento irá tentar achar o melhor modelo
+        self.scoring = SCORING_PIPELINE_MAP # Metricas usadas no GridSearch
 
     def _create_base_pipeline(self) -> Pipeline:
         """

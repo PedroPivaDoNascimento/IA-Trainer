@@ -61,6 +61,7 @@ class MetricsHandler:
         #\d+\.\d+: Procura números com casas decimais (ex: 0.85, 10.5).
         #|: Significa "OU".
         #\d+: Procura números inteiros (ex: 50, 100).
+        
         nums = [float(x) if "." in x else int(x) for x in re.findall(r"\d+\.\d+|\d+", line)]
 
         # Retornmas os ultimos count numeros da linha se tivermos mais de count numeros

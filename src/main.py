@@ -11,7 +11,7 @@ if __name__ == "__main__":
     # Métrica alvo: 'f1_score', 'accuracy', 'precision' ou 'recall'
     METRIC_FOCO = "recall"
 
-    # Inicializa e executa o controlador MVC
+    # Inicializa e executa o controlador
     controller = TrainingController(
         data_path=DATA_PATH,
         results_path=RESULTS_PATH,

@@ -43,7 +43,6 @@ class ReportView:
         all_reports: List[str],
         all_params: List[dict],
         random_states: List[int],
-        total_minutes: float,
         metric_focus: str
     ) -> None:
         """
@@ -56,8 +55,7 @@ class ReportView:
             random_states: Sementes utilizadas.
             total_minutes: Tempo total de execução.
         """
-        print(f"\n⏱️  Tempo total de execução: {total_minutes:.1f} minutos")
-        print("\n📊 Melhores modelos:")
+        print("\n Melhores modelos:")
         for i in range(len(all_metrics)):
             print(f"\n\t====== MODELO {i+1} ======")
             self.display_cv_metrics(all_metrics[i], metric_focus)
