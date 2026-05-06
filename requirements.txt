@@ -1,0 +1,15 @@
+# requirements.txt
+# Dependências principais para o Treinador de IA
+
+# Machine Learning e Ciência de Dados
+scikit-learn>=1.0.0
+pandas>=1.3.0
+numpy>=1.21.0
+
+# Utilitários e I/O
+joblib>=1.1.0
+openpyxl>=3.0.0
+
+# Observação:
+# Módulos nativos do Python (re, time, random, sys, os, typing, etc.)
+# já vêm instalados por padrão e NÃO devem ser listados aqui.
