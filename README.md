@@ -118,18 +118,20 @@ Edite o método `get_param_grid()` em `models/model_config.py` e adicione um nov
     'scaler': scalers,  # Reutiliza a lista de escaladores
     'reducao': ['passthrough'],
 }
+```
 
-Alterar a Métrica de Otimização
+### Alterar a Métrica de Otimização
 No arquivo main.py, modifique a variável METRIC_FOCO:
-
-
+```python
 METRIC_FOCO = "f1_score"  # Recomendado para dados desbalanceados
+```
 
-Ajustar Número de Execuções
+### Ajustar Número de Execuções
 No TrainingController, altere o parâmetro iterations para executar com mais ou menos sementes aleatórias:
-
+```python
 controller = TrainingController(..., iterations=20)  # Default: 10
+```
 
-📬 Contato
+## 📬 Contato
 Se você tiver alguma dúvida, sugestão ou encontrar algum bug, sinta-se à vontade para entrar em contato:
 📧 pedropiva9@gmail.com
