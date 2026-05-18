@@ -11,10 +11,10 @@ METRIC_SCORING_MAP = {
 }
 
 SCORING_PIPELINE_MAP = {
-    "f1": "f1_weighted",
+    "f1": "f1",
     "accuracy": "accuracy",
-    "precision": "precision_weighted",
-    "recall": "recall_weighted",
+    "precision": "precision",
+    "recall": "recall",
 }
 
 # Nomes das colunas de desvio padrão nos resultados do GridSearchCV

@@ -18,6 +18,8 @@ class TrainingController:
         results_path: str,
         metric_focus: str = "recall",
         iterations: int = 10,
+        dict_params: dict = None
+
     ) -> None:
         """
         Inicializa as dependências do controlador.
@@ -29,17 +31,17 @@ class TrainingController:
             iterations: Número de execuções com random states diferentes.
         """
         self.data_handler = DataHandler(data_path, results_path)
-        self.trainer = Trainer(metric_focus)
+        self.trainer = Trainer(metric_focus, dict_params=dict_params)
         self.metrics_handler = MetricsHandler(metric_focus)
         self.view = ReportView()
         self.metric_focus = metric_focus
         self.iterations = iterations
 
-    def run(self) -> None:
+    def run(self, ) -> None:
         """Executa o loop principal de treinamento, avaliação e relatório."""
         start_time = time.time()
         random_states = [random.randint(1, 1000) for _ in range(self.iterations)]
-
+        
         all_metrics = []
         all_reports = []
         all_params = []
@@ -48,7 +50,7 @@ class TrainingController:
             X_train, X_test, y_train, y_test = self.data_handler.load_and_split(
                 random_state=rs
             )
-            grid = self.trainer.train(X_train, y_train)
+            grid = self.trainer.train(X_train, y_train, random_state=rs)
             cv_metrics, report = self.metrics_handler.evaluate(grid, X_test, y_test)
 
             model_name = f"modelo_pe_frontal_esquerdo_{i+1}.pkl"
@@ -69,3 +71,5 @@ class TrainingController:
         print(avg_report)
         print("=" * 60)
         print(f"Tempo gasto em minutos: {total_minutes:.2f}")
+
+        return   

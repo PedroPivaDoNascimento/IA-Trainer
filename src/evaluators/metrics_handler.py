@@ -29,7 +29,7 @@ class MetricsHandler:
         """
         best_model = grid.best_estimator_
         y_pred = best_model.predict(X_test)
-        report = classification_report(
+        report = classification_report( 
             y_test, y_pred, target_names=CLASS_NAMES, zero_division=0
         )
 
