@@ -7,6 +7,11 @@ from models.data_handler import DataHandler
 from models.trainer import Trainer
 from evaluators.metrics_handler import MetricsHandler
 from views.report_view import ReportView
+from models.excel_geter import preparar_dados_para_treino, pegar_nomes_das_features
+from views.data_report import DataReport
+import pandas as pd
+from sklearn.neural_network import MLPClassifier
+from sklearn.ensemble import RandomForestClassifier
 
 
 class TrainingController:
@@ -50,8 +55,9 @@ class TrainingController:
         all_params = []
 
         for i, rs in enumerate(random_states):
+            X, y = preparar_dados_para_treino(self.data_handler.data_path, self.data_handler.results_path)
             X_train, X_test, y_train, y_test = self.data_handler.load_and_split(
-                random_state=rs
+                random_state=rs, X=X, y=y
             )
             grid = self.trainer.train(X_train, y_train, random_state=rs)
             cv_metrics, report = self.metrics_handler.evaluate(grid, X_test, y_test)
@@ -79,15 +85,33 @@ class TrainingController:
     
     def run_data_analysis(self) -> None:
         """Executa análises exploratórias nos dados."""
-        random_states = [random.randint(1, 1000) for _ in range(self.iterations)]
-        #random_states = [777]  
+        rs = random.randint(1, 1000)
         
-        for i, rs in enumerate(random_states):
-            X_train, X_test, y_train, y_test = self.data_handler.load_and_split(
-                random_state=rs
-            )
+        X, y = preparar_dados_para_treino(self.data_handler.data_path, self.data_handler.results_path)
+      
+        data_report = DataReport(X, y, self.data_handler)
+        data_report.generate_report_balenceamento()
 
-        
+        feature_names = pegar_nomes_das_features(self.data_handler.data_path)
+        df = pd.DataFrame(X, columns=feature_names)
+
+        X_train, X_val, y_train, y_val = self.data_handler.load_and_split_analysis(
+            random_state=rs, X=df, y=y
+        )
+        model = RandomForestClassifier(random_state=rs)
+        model.fit(X_train, y_train)
+        baseline_score = model.score(X_val, y_val)
+        print(f"Acurácia inicial do modelo: {baseline_score:.4f}")
+
+        importance_df = self.data_handler.make_permutation_importance(model, X_val, y_val, feature_names)
+        print("\n--- Resultado da Análise de Features ---")
+        print(importance_df.to_string(index=False))
+
+        data_report.generate_report_importance(importance_df)
 
 
-        return   
+
+            
+
+
+
