@@ -8,6 +8,7 @@ METRIC_SCORING_MAP = {
     "accuracy": "accuracy",
     "precision": "precision",
     "recall": "recall",
+    "roc_auc": "roc_auc",
 }
 
 SCORING_PIPELINE_MAP = {
@@ -15,6 +16,7 @@ SCORING_PIPELINE_MAP = {
     "accuracy": "accuracy",
     "precision": "precision",
     "recall": "recall",
+    "roc_auc": "roc_auc",
 }
 
 # Nomes das colunas de desvio padrão nos resultados do GridSearchCV
@@ -23,6 +25,7 @@ STD_MAP = {
     "accuracy": "std_test_accuracy",
     "precision": "std_test_precision",
     "recall": "std_test_recall",
+    "roc_auc": "std_test_roc_auc",
 }
 
 # Nomes das classes no relatório de classificação

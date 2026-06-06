@@ -37,10 +37,13 @@ class TrainingController:
         self.metric_focus = metric_focus
         self.iterations = iterations
 
+
+
     def run(self, ) -> None:
         """Executa o loop principal de treinamento, avaliação e relatório."""
         start_time = time.time()
         random_states = [random.randint(1, 1000) for _ in range(self.iterations)]
+        #random_states = [777]  
         
         all_metrics = []
         all_reports = []
@@ -71,5 +74,20 @@ class TrainingController:
         print(avg_report)
         print("=" * 60)
         print(f"Tempo gasto em minutos: {total_minutes:.2f}")
+
+        return   
+    
+    def run_data_analysis(self) -> None:
+        """Executa análises exploratórias nos dados."""
+        random_states = [random.randint(1, 1000) for _ in range(self.iterations)]
+        #random_states = [777]  
+        
+        for i, rs in enumerate(random_states):
+            X_train, X_test, y_train, y_test = self.data_handler.load_and_split(
+                random_state=rs
+            )
+
+        
+
 
         return   

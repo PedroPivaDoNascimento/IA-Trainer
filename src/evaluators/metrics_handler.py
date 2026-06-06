@@ -4,7 +4,7 @@ Processamento de métricas e relatórios.
 import re
 from typing import Dict, List, Tuple
 import numpy as np
-from sklearn.metrics import classification_report
+from sklearn.metrics import classification_report, roc_auc_score
 from config.settings import STD_MAP, CLASS_NAMES
 
 
@@ -32,6 +32,7 @@ class MetricsHandler:
         report = classification_report( 
             y_test, y_pred, target_names=CLASS_NAMES, zero_division=0
         )
+        report += f"ROC AUC: {roc_auc_score(y_test, y_pred):.2f}\n"
 
         idx = grid.best_index_
         cv_metrics = {
@@ -39,6 +40,7 @@ class MetricsHandler:
             "f1_score": grid.cv_results_["mean_test_f1"][idx] * 100,
             "precision": grid.cv_results_["mean_test_precision"][idx] * 100,
             "recall": grid.cv_results_["mean_test_recall"][idx] * 100,
+            "roc_auc": grid.cv_results_["mean_test_roc_auc"][idx] * 100,
             "std": grid.cv_results_[self.std_key][idx] * 100,
         }
         return cv_metrics, report
@@ -90,6 +92,7 @@ class MetricsHandler:
             "accuracy": {"acc": [], "s": []},
             "macro avg": {"p": [], "r": [], "f": [], "s": []},
             "weighted avg": {"p": [], "r": [], "f": [], "s": []},
+            "roc_auc": []
         })
 
         # Pegando cada report na lista de todos os reports
@@ -118,6 +121,11 @@ class MetricsHandler:
                         if len(nums) == 4:
                             for k, v in zip(["p", "r", "f", "s"], nums):
                                 accumulator[avg][k].append(v)
+            
+                if "ROC AUC:" in line:
+                    nums = self.extract_last_numbers(line, 1)
+                    if len(nums) == 1:
+                        accumulator["roc_auc"].append(nums[0])
 
         def safe_mean(lst: list) -> float:
             return sum(lst) / len(lst) if lst else 0.0
@@ -144,5 +152,7 @@ class MetricsHandler:
                 f"{safe_mean(accumulator[avg]['f']):>9.2f} "
                 f"{round(safe_mean(accumulator[avg]['s'])):>9}"
             )
+        if accumulator["roc_auc"]:
+            output.append(f"ROC AUC: {safe_mean(accumulator['roc_auc']):.2f}")
 
         return "\n".join(output)

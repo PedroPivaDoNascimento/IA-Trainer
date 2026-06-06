@@ -38,7 +38,7 @@ class ModelConfig:
             RobustScaler(quantile_range=(20, 80)),
             #RobustScaler(quantile_range=(10, 90)),
             #RobustScaler(quantile_range=(30, 70)),
-            #StandardScaler(),
+            StandardScaler(),
         ]   
 
     @staticmethod
@@ -101,7 +101,7 @@ class ModelConfig:
                     #0.005,
                     0.0075,
                     0.01,
-                    #0.015,
+                    0.015,
                     #0.1
                 ],
 
@@ -113,9 +113,22 @@ class ModelConfig:
                     #0.15
                 ],
 
-                "clf__max_iter": [500,1000,1500],
-                "clf__n_iter_no_change": [10, 15, 20],
-                "clf__tol": [0.0001, 0.00005]
+                "clf__max_iter": [
+                    500,
+                    1000,
+                    1500
+                ],
+
+                "clf__n_iter_no_change": [
+                    10, 
+                    15, 
+                    20
+                ],
+
+                "clf__tol": [
+                    0.0001, 
+                    0.00005
+                ]
             },
 
             #{
