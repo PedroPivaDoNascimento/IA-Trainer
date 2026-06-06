@@ -36,13 +36,8 @@ Siga estes passos para configurar e executar o projeto localmente:
 
 2.  (Opcional, mas recomendado) Crie e ative um ambiente virtual:
     ```bash
-    # Linux/MacOS
-    python3 -m venv venv
-    source venv/bin/activate
-
-    # Windows (PowerShell)
-    python -m venv venv
-    venv\Scripts\Activate
+    python -m venv venv && source venv/bin/activate  # Windows: venv\Scripts\activate
+    pip install -r requirements.txt
     ```
 
 3.  Crie o arquivo `requirements.txt` na raiz do projeto e cole o conteúdo fornecido neste repositório, ou simplesmente execute:
