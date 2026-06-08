@@ -8,6 +8,7 @@ from .excel_geter import preparar_dados_para_treino
 import pandas as pd
 from typing import Any
 from sklearn.inspection import permutation_importance
+import pandas as pd
 
 
 class DataHandler:
@@ -60,7 +61,7 @@ class DataHandler:
         )
     
     
-    def __calcular_ratio_variancia(X_data, y_data):
+    def __calcular_ratio_variancia(self, X_data: pd.DataFrame, y_data: np.ndarray):
         """
         Calcula a razão de variância (Interclasse / Intraclasse).
 
@@ -82,7 +83,7 @@ class DataHandler:
             
         return ratios
     
-    def __classificar_feature(row):
+    def __classificar_feature(self,row):
         # Threshold estatístico: Se a variância interclasse for menor que 1% da intraclasse
         if row['Variance_Ratio'] < 0.01:
             return "Prejudicial (Ruído Intraclasse)"
@@ -91,7 +92,7 @@ class DataHandler:
         else:
             return "Neutra (Pode remover)"
     
-    def make_permutation_importance(self, model: Any, X_val: np.ndarray, y_val: np.ndarray, feature_names: list) -> pd.DataFrame:
+    def make_permutation_importance(self, model: Any, X_val: pd.DataFrame, y_val: np.ndarray, feature_names: list) -> pd.DataFrame:
         """
         Aplica Permutation Importance para avaliar a importância das features.
 
@@ -106,9 +107,7 @@ class DataHandler:
 
         # Calculamos o ratio com base nos dados de treino
         variance_ratios = self.__calcular_ratio_variancia(X_val, y_val)
-
-        result = permutation_importance(model, X_val, y_val, n_repeats=10, random_state=42)
-
+        result = permutation_importance(model, X_val, y_val, n_repeats=10, random_state=42, n_jobs=-2)
         # Organizando os resultados iniciais
         importance_df = pd.DataFrame({
             'Feature': feature_names,

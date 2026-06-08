@@ -85,6 +85,8 @@ class TrainingController:
     
     def run_data_analysis(self) -> None:
         """Executa análises exploratórias nos dados."""
+        start_time = time.time()
+
         rs = random.randint(1, 1000)
         
         X, y = preparar_dados_para_treino(self.data_handler.data_path, self.data_handler.results_path)
@@ -98,7 +100,7 @@ class TrainingController:
         X_train, X_val, y_train, y_val = self.data_handler.load_and_split_analysis(
             random_state=rs, X=df, y=y
         )
-        model = RandomForestClassifier(random_state=rs)
+        model = MLPClassifier(random_state=rs)
         model.fit(X_train, y_train)
         baseline_score = model.score(X_val, y_val)
         print(f"Acurácia inicial do modelo: {baseline_score:.4f}")
@@ -108,6 +110,9 @@ class TrainingController:
         print(importance_df.to_string(index=False))
 
         data_report.generate_report_importance(importance_df)
+        total_minutes = (time.time() - start_time) / 60
+        print(f"Tempo gasto em minutos: {total_minutes:.2f}")
+
 
 
 
