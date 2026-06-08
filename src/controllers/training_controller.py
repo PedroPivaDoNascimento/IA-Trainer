@@ -95,10 +95,9 @@ class TrainingController:
         data_report.generate_report_balenceamento()
 
         feature_names = pegar_nomes_das_features(self.data_handler.data_path)
-        df = pd.DataFrame(X, columns=feature_names)
-
+       
         X_train, X_val, y_train, y_val = self.data_handler.load_and_split_analysis(
-            random_state=rs, X=df, y=y
+            random_state=rs, X=X, y=y
         )
         model = MLPClassifier(random_state=rs)
         model.fit(X_train, y_train)

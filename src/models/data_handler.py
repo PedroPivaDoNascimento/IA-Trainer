@@ -61,13 +61,20 @@ class DataHandler:
         )
     
     
-    def __calcular_ratio_variancia(self, X_data: pd.DataFrame, y_data: np.ndarray):
+    def __calcular_ratio_variancia(self, X_data: pd.DataFrame, y_data: np.ndarray, feature_names: list = None) -> dict:
         """
         Calcula a razão de variância (Interclasse / Intraclasse).
 
         Valores muito baixos indicam alta variação interna sem separabilidade de labels
         e valores muito altos é alta variação externa.
         """
+
+        if isinstance(X_data, np.ndarray):
+            if feature_names is not None:
+                X_data = pd.DataFrame(X_data, columns=feature_names)
+            else:
+                X_data = pd.DataFrame(X_data)
+
         ratios = {}
         for col in X_data.columns:
             # Agrupando por label para calcular as métricas por classe
@@ -106,7 +113,7 @@ class DataHandler:
         """
 
         # Calculamos o ratio com base nos dados de treino
-        variance_ratios = self.__calcular_ratio_variancia(X_val, y_val)
+        variance_ratios = self.__calcular_ratio_variancia(X_val, y_val, feature_names=feature_names)
         result = permutation_importance(model, X_val, y_val, n_repeats=10, random_state=42, n_jobs=-2)
         # Organizando os resultados iniciais
         importance_df = pd.DataFrame({
