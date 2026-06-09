@@ -89,8 +89,7 @@ class TrainingController:
         
         X, y = preparar_dados_para_treino(self.data_handler.data_path, self.data_handler.results_path)
       
-        data_report = DataReport(X, y, self.data_handler)
-        data_report.generate_report_balenceamento()
+        DataReport.generate_report_balenceamento(y)
 
         feature_names = pegar_nomes_das_features(self.data_handler.data_path)
        
@@ -107,7 +106,7 @@ class TrainingController:
         print("\n--- Resultado da Análise de Features ---")
         print(importance_df.to_string(index=False))
 
-        data_report.generate_report_importance(importance_df)
+        DataReport.generate_report_importance(importance_df)
         total_minutes = (time.time() - start_time) / 60
         print(f"Tempo gasto em minutos: {total_minutes:.2f}")
 

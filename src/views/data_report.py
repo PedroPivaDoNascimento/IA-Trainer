@@ -1,17 +1,13 @@
 import numpy as np
-from models.data_handler import DataHandler
 import matplotlib.pyplot as plt
 from matplotlib.patches import Patch
 import pandas as pd
 
 class DataReport:
-    def __init__(self, X: np.ndarray, y: np.ndarray, data_handler: DataHandler) -> None:
-        self.data_handler = data_handler
-        self.X = X
-        self.y = y
-    def generate_report_balenceamento(self) -> None:
+    @staticmethod
+    def generate_report_balenceamento(y: np.ndarray) -> None:
         """Gera um relatório de balanceamento das classes."""
-        unique, counts = np.unique(self.y, return_counts=True)
+        unique, counts = np.unique(y, return_counts=True)
         plt.bar(unique, counts)
         plt.xlabel('Classes')
         plt.ylabel('Contagem')
@@ -19,7 +15,8 @@ class DataReport:
         plt.xticks(unique)
         plt.show()
 
-    def generate_report_importance(self, importance_df: pd.DataFrame) -> None:
+    @staticmethod
+    def generate_report_importance(importance_df: pd.DataFrame) -> None:
         plt.figure(figsize=(10, 6))
         # Mapeamento de cores baseado na nova classificação
         color_map = {

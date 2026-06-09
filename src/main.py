@@ -29,5 +29,4 @@ if __name__ == "__main__":
         dict_params=dict_params
     )
     controller.run_data_analysis()
-    #teste()
 
