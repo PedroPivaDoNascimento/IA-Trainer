@@ -9,6 +9,7 @@ from evaluators.metrics_handler import MetricsHandler
 from views.report_view import ReportView
 from models.excel_geter import preparar_dados_para_treino, pegar_nomes_das_features
 from views.data_report import DataReport
+from sklearn.preprocessing import RobustScaler
 
 
 class TrainingController:
@@ -101,7 +102,8 @@ class TrainingController:
         baseline_score = model.score(X_val, y_val)
         print(f"Acurácia inicial do modelo: {baseline_score:.4f}")
 
-        importance_df = self.data_handler.make_permutation_importance(model, X_val, y_val, feature_names)
+        X_val_scaled = RobustScaler().fit_transform(X_val)
+        importance_df = self.data_handler.make_permutation_importance(model, X_val_scaled, y_val, feature_names)
         print("\n--- Resultado da Análise de Features ---")
         print(importance_df.to_string(index=False))
 
