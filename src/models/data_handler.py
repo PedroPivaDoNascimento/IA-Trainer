@@ -92,12 +92,11 @@ class DataHandler:
     
     def __classificar_feature(self,row):
         # Threshold estatístico: Se a variância interclasse for menor que 1% da intraclasse
-        if row['Variance_Ratio'] < 0.01:
-            return "Prejudicial (Ruído Intraclasse)"
-        elif row['Importance_Drop'] > 0.01:
+        if row['Variance_Ratio'] < 0.01 or row['Importance_Drop'] < 0:
+            return "Prejudicial (Remove)"
+        if row['Importance_Drop'] > 0.01:
             return "Importante (Mantém)"
-        else:
-            return "Neutra (Pode remover)"
+        return "Neutra (Pode remover)"
     
     def make_permutation_importance(self, model: Any, X_val: pd.DataFrame, y_val: np.ndarray, feature_names: list) -> pd.DataFrame:
         """

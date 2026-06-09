@@ -25,10 +25,10 @@ class DataReport:
         color_map = {
             "Importante (Mantém)": "green",
             "Neutra (Pode remover)": "gray",
-            "Prejudicial (Ruído Intraclasse)": "red"
+            "Prejudicial (Remove)": "red"
         }
-        #colors = [color_map[crit] for crit in importance_df['Classificacao']]
-        #bars = plt.barh(importance_df['Feature'], importance_df['Importance_Drop'], color=colors)
+        colors = [color_map[crit] for crit in importance_df['Classificacao']]
+        bars = plt.barh(importance_df['Feature'], importance_df['Importance_Drop'], color=colors)
         plt.axvline(x=0, color='black', linestyle='--')
 
         # Adicionando legenda

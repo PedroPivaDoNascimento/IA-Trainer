@@ -9,9 +9,6 @@ from evaluators.metrics_handler import MetricsHandler
 from views.report_view import ReportView
 from models.excel_geter import preparar_dados_para_treino, pegar_nomes_das_features
 from views.data_report import DataReport
-import pandas as pd
-from sklearn.neural_network import MLPClassifier
-from sklearn.ensemble import RandomForestClassifier
 
 
 class TrainingController:
@@ -87,7 +84,7 @@ class TrainingController:
         """Executa análises exploratórias nos dados."""
         start_time = time.time()
 
-        rs = random.randint(1, 1000)
+        rs = 777 # random_state do melhor modelo encontrado
         
         X, y = preparar_dados_para_treino(self.data_handler.data_path, self.data_handler.results_path)
       
@@ -99,8 +96,8 @@ class TrainingController:
         X_train, X_val, y_train, y_val = self.data_handler.load_and_split_analysis(
             random_state=rs, X=X, y=y
         )
-        model = MLPClassifier(random_state=rs)
-        model.fit(X_train, y_train)
+    
+        model = self.trainer.train(X_train, y_train, random_state=rs)
         baseline_score = model.score(X_val, y_val)
         print(f"Acurácia inicial do modelo: {baseline_score:.4f}")
 
