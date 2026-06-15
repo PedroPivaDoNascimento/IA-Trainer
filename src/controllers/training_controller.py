@@ -123,10 +123,8 @@ class TrainingController:
 
         DataReport.generate_report_importance(importance_df)
         
-        # ============================================================
-        # NOVAS FUNCIONALIDADES DE ANÁLISE E VISUALIZAÇÃO
-        # ============================================================
-        print("\n--- Gerando Visualizações Avançadas ---")
+  
+        print("\n--- Gerando Visualizações Detalhadas ---")
         
         # Preparar dados completos para visualizações (sem split)
         X_full, y_full = preparar_dados_para_treino(self.data_handler.data_path, self.data_handler.results_path)
@@ -140,26 +138,26 @@ class TrainingController:
         lr_model = LogisticRegression(max_iter=1000, random_state=rs)
         lr_model.fit(X_full_scaled, y_full)
         
-        # Extrair importâncias
+        # Extrair importâncias da árcore
         rf_feature_importances = rf_model.feature_importances_
         
-        # Para Regressão Logística multiclasse: média dos valores absolutos dos coeficientes
+        # Para Regressão Logística eu peguei a média dos valores absolutos dos coeficientes
         if len(lr_model.coef_.shape) == 2 and lr_model.coef_.shape[0] > 1:
             lr_coefficients = np.mean(np.abs(lr_model.coef_), axis=0)
         else:
             lr_coefficients = np.abs(lr_model.coef_.flatten())
         
-        # 1. Comparação de Importância de Features com Gráficos
-        print("\n[1/4] Gerando comparação de importância de features...")
+        # Comparação de Importância de Features com Gráficos
+        print("\n Gerando comparação de importância de features...")
         AdvancedVisualizations.plot_feature_importance_comparison(
             permutation_importance_df=importance_df,
             rf_feature_importances=rf_feature_importances,
             lr_coefficients=lr_coefficients,
             feature_names=feature_names,
-            dataset_name="Dataset Iris"
+            dataset_name="Pé frontal esquerdo - 150 amostras - 2 classes"
         )
         
-        # 2. Identificar Top 2 features de cada método
+        # Identificar Top 2 features de cada método
         top_features_dict = AdvancedVisualizations.get_top_2_features(
             permutation_importance_df=importance_df,
             rf_feature_importances=rf_feature_importances,
@@ -171,32 +169,14 @@ class TrainingController:
         print(f"Top 2 Features - Random Forest: {top_features_dict['random_forest']}")
         print(f"Top 2 Features - Logistic Regression: {top_features_dict['logistic_regression']}")
         
-        # 3. Plots 2D com as Duas Melhores Features de Cada Método
-        print("\n[2/4] Gerando plots 2D das top features...")
+        # Plots 2D com as Duas Melhores Features de Cada Método
+        print("\nGerando plots 2D das top features...")
         AdvancedVisualizations.plot_2d_scatter_top_features(
             X=X_full_df,
             y=y_full,
             top_features_dict=top_features_dict,
-            class_names=["Classe 0", "Classe 1", "Classe 2"],
-            dataset_name="Dataset Iris"
-        )
-        
-        # 4. PCA 2D com Features de Influência Positiva
-        print("\n[3/4] Gerando PCA com features de influência positiva...")
-        # Máscara para features com coeficientes positivos na Regressão Logística
-        positive_mask_lr = lr_coefficients > 0
-        
-        # Alternativamente, pode-se usar threshold de importância do RF
-        # threshold_rf = np.percentile(rf_feature_importances, 50)
-        # positive_mask_rf = rf_feature_importances >= threshold_rf
-        
-        AdvancedVisualizations.plot_pca_positive_influence(
-            X=X_full_df,
-            y=y_full,
-            feature_names=feature_names,
-            positive_mask=positive_mask_lr,
-            class_names=["Classe 0", "Classe 1", "Classe 2"],
-            dataset_name="Dataset Iris"
+            class_names=["Classe 0", "Classe 1"],
+            dataset_name="Pé frontal esquerdo - 150 amostras - 2 classes"
         )
         
         total_minutes = (time.time() - start_time) / 60
