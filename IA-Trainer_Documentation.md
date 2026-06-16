@@ -1,3 +1,13 @@
+### 📄 /home/piva/Documentos/Programação/Python/IA-Trainer/requirements.txt
+*Saved at: 15/06/2026, 22:38:36*
+
+**[ADDED]**
+```
+13    seaborn>=0.11.0
+```
+
+---
+
 ### 📄 /home/piva/Documentos/Programação/Python/IA-Trainer/src/controllers/training_controller.py
 *Saved at: 15/06/2026, 22:34:08*
 
