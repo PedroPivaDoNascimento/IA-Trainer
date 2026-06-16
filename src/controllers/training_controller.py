@@ -121,7 +121,11 @@ class TrainingController:
         print("\n--- Resultado da Análise de Features ---")
         print(importance_df.to_string(index=False))
 
+        # Relatório de Importância de Features
         DataReport.generate_report_importance(importance_df)
+        
+        # Matriz de Confusão
+        AdvancedVisualizations.plot_confusion_matrix(y_val, model.predict(X_val_scaled), class_names=["Classe 0", "Classe 1"], dataset_name="Pé frontal esquerdo - 150 amostras - 2 classes")
         
   
         print("\n--- Gerando Visualizações Detalhadas ---")

@@ -1,4 +1,83 @@
 ### 📄 /home/piva/Documentos/Programação/Python/IA-Trainer/src/controllers/training_controller.py
+*Saved at: 15/06/2026, 22:34:08*
+
+**[REMOVED]**
+```
+(from line ~124)
+        # Relatório de Importância
+
+```
+**[ADDED]**
+```
+124           # Relatório de Importância de Features
+```
+
+---
+
+### 📄 /home/piva/Documentos/Programação/Python/IA-Trainer/src/controllers/training_controller.py
+*Saved at: 15/06/2026, 22:34:04*
+
+**[ADDED]**
+```
+124           # Relatório de Importância
+```
+**[ADDED]**
+```
+126           
+127           # Matriz de Confusão
+```
+
+---
+
+### 📄 /home/piva/Documentos/Programação/Python/IA-Trainer/src/controllers/training_controller.py
+*Saved at: 15/06/2026, 22:32:32*
+
+**[ADDED]**
+```
+125           AdvancedVisualizations.plot_confusion_matrix(y_val, model.predict(X_val_scaled), class_names=["Classe 0", "Classe 1"], dataset_name="Pé frontal esquerdo - 150 amostras - 2 classes")
+```
+
+---
+
+### 📄 /home/piva/Documentos/Programação/Python/IA-Trainer/src/views/advanced_visualizations.py
+*Saved at: 15/06/2026, 22:30:33*
+
+**[ADDED]**
+```
+17        def plot_confusion_matrix(
+18            y_true: np.ndarray,
+19            y_pred: np.ndarray,
+20            class_names: List[str] = None,
+21            dataset_name: str = "Dataset"
+22        ) -> None:
+23            """
+24            Plota a matriz de confusão com anotações.
+25    
+26            Args:
+27                y_true: Array com os labels verdadeiros.
+28                y_pred: Array com os labels previstos.
+29                class_names: Nomes das classes para os rótulos dos eixos.
+30                dataset_name: Nome do dataset para o título.
+31            """
+32            from sklearn.metrics import confusion_matrix
+33            import seaborn as sns
+34    
+35            cm = confusion_matrix(y_true, y_pred)
+36            plt.figure(figsize=(6, 5))
+37            sns.heatmap(cm, annot=True, fmt='d', cmap='Blues', 
+38                        xticklabels=class_names, yticklabels=class_names)
+39            plt.xlabel('Predito')
+40            plt.ylabel('Verdadeiro')
+41            plt.title(f'Matriz de Confusão - {dataset_name}', fontsize=14, fontweight='bold')
+42            plt.tight_layout()
+43            plt.show()
+44    
+45        @staticmethod
+```
+
+---
+
+### 📄 /home/piva/Documentos/Programação/Python/IA-Trainer/src/controllers/training_controller.py
 *Saved at: 15/06/2026, 18:16:34*
 
 **[REMOVED]**

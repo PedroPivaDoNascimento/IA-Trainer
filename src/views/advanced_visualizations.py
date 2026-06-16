@@ -14,6 +14,35 @@ class AdvancedVisualizations:
     """Classe responsável por gerar visualizações avançadas de análise de modelos."""
 
     @staticmethod
+    def plot_confusion_matrix(
+        y_true: np.ndarray,
+        y_pred: np.ndarray,
+        class_names: List[str] = None,
+        dataset_name: str = "Dataset"
+    ) -> None:
+        """
+        Plota a matriz de confusão com anotações.
+
+        Args:
+            y_true: Array com os labels verdadeiros.
+            y_pred: Array com os labels previstos.
+            class_names: Nomes das classes para os rótulos dos eixos.
+            dataset_name: Nome do dataset para o título.
+        """
+        from sklearn.metrics import confusion_matrix
+        import seaborn as sns
+
+        cm = confusion_matrix(y_true, y_pred)
+        plt.figure(figsize=(6, 5))
+        sns.heatmap(cm, annot=True, fmt='d', cmap='Blues', 
+                    xticklabels=class_names, yticklabels=class_names)
+        plt.xlabel('Predito')
+        plt.ylabel('Verdadeiro')
+        plt.title(f'Matriz de Confusão - {dataset_name}', fontsize=14, fontweight='bold')
+        plt.tight_layout()
+        plt.show()
+
+    @staticmethod
     def plot_feature_importance_comparison(
         permutation_importance_df: pd.DataFrame,
         rf_feature_importances: np.ndarray,
