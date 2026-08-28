@@ -42,6 +42,19 @@ class DataHandler:
             X, y, test_size=test_size, random_state=random_state, stratify=y
         )
     
+    def remove_feature(self, X: pd.DataFrame, removed_features: list) -> pd.DataFrame:
+        """
+        Remove uma ou mais features específicas do DataFrame.
+
+        Args:
+            X: DataFrame de features.
+            removed_features: Lista de nomes das features a serem removidas.
+
+        Returns:
+            DataFrame com as features removidas.
+        """
+        return X.drop(columns=removed_features)
+
     def load_and_split_analysis(
         self, test_size: float = 0.2, random_state: int = 67, X: pd.DataFrame = None, y: np.ndarray = None
     ) -> Tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray]:

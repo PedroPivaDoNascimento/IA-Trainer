@@ -230,7 +230,7 @@ class TrainingDiagnostic:
         diagnostico = TrainingDiagnostic._diagnosticar(resultados)
 
         # Imprimir relatório
-        TrainingDiagnostic._imprimir_diagnostico(resultados, diagnostico)
+        TrainingDiagnostic._imprimir_diagnostico(resultados, diagnostico)           
 
         resultados['diagnostico'] = diagnostico
         return resultados
@@ -246,7 +246,7 @@ class TrainingDiagnostic:
         Returns:
             String com o diagnóstico: 'OVERFITTING', 'UNDERFITTING' ou 'BOM AJUSTE'.
         """
-        acc_treino = resultados.get('accuracy_treino', 0)
+        acc_treino = resultados.get('accuracy_treino', 0)       
         acc_teste = resultados.get('accuracy_teste', 0)
 
         # Thresholds para diagnóstico

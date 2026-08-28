@@ -10,7 +10,7 @@ from views.report_view import ReportView
 from models.excel_geter import preparar_dados_para_treino, pegar_nomes_das_features
 from views.data_report import DataReport
 from views.advanced_visualizations import AdvancedVisualizations, TrainingDiagnostic
-from sklearn.preprocessing import RobustScaler
+from sklearn.preprocessing import RobustScaler, PowerTransformer
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.linear_model import LogisticRegression
 import numpy as np
@@ -47,11 +47,15 @@ class TrainingController:
 
 
 
-    def run(self, ) -> None:
+    def run(self) -> None:
         """Executa o loop principal de treinamento, avaliação e relatório."""
         start_time = time.time()
         random_states = [random.randint(1, 1000) for _ in range(self.iterations)]
-        #random_states = [777]  
+        #removed_features_mlp = ["big_toe_x_iqr", "heel_y_iqr"]
+        removed_features_mlp = ["ankle_y_std", "ankle_x_iqr", "heel_x_std", "big_toe_y_std", "heel_x_iqr", "big_toe_x_iqr", "heel_y_iqr"]
+        #removed_features_knn = ["heel_x_iqr", "heel_y_std"]
+        #random_states = [777]    # Random State para o melhor MLP 
+        #random_states = [647] # Random State para o melhor KNN
         
         all_metrics = []
         all_reports = []
@@ -59,6 +63,7 @@ class TrainingController:
 
         for i, rs in enumerate(random_states):
             X, y = preparar_dados_para_treino(self.data_handler.data_path, self.data_handler.results_path)
+            X = self.data_handler.remove_feature(X, removed_features_mlp)
             X_train, X_test, y_train, y_test = self.data_handler.load_and_split(
                 random_state=rs, X=X, y=y
             )
@@ -90,10 +95,14 @@ class TrainingController:
         """Executa análises exploratórias nos dados."""
         start_time = time.time()
 
-        rs = 777 # random_state do melhor modelo encontrado
-        
+        rs = 777 # random_state do melhor modelo encontrado para o MLP
+        #rs = 647 # random_state do melhor modelo encontrado para o KNN
+        #removed_features_knn = ["heel_x_iqr"]
+        #removed_features_mlp = ["big_toe_x_iqr"]
+
         X, y = preparar_dados_para_treino(self.data_handler.data_path, self.data_handler.results_path)
-      
+        #X = self.data_handler.remove_feature(X, removed_features_knn)
+
         DataReport.generate_report_balenceamento(y)
 
         feature_names = pegar_nomes_das_features(self.data_handler.data_path)
@@ -116,7 +125,7 @@ class TrainingController:
             y_teste=y_val
         )
 
-        X_val_scaled = RobustScaler().fit_transform(X_val)
+        X_val_scaled = PowerTransformer().fit_transform(X_val)
         importance_df = self.data_handler.make_permutation_importance(model, X_val_scaled, y_val, feature_names)
         print("\n--- Resultado da Análise de Features ---")
         print(importance_df.to_string(index=False))

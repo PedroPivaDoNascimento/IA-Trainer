@@ -7,20 +7,20 @@ def preparar_dados_para_treino(caminho_estatistico, caminho_resultados):
     df_estatistico = pd.read_excel(caminho_estatistico, engine='openpyxl')
     
     # Extrai todas as colunas a partir da terceira coluna
-    X = df_estatistico.iloc[:, 2:].values
+    X = df_estatistico.iloc[:, 2:]
     
     # Leitura dos dados de resultados
     df_resultados = pd.read_excel(caminho_resultados, engine='openpyxl')
     
     # Extrai apenas a coluna 'Resultado' como um vetor (0 e 1)
     y = df_resultados['Resultado'].values
-    
+
     return X, y
 
 def pegar_nomes_das_features(caminho_estatistico):
     """Função que retorna os nomes das features a partir da planilha de estatístico"""
     df_estatistico = pd.read_excel(caminho_estatistico, engine='openpyxl')
     feature_names = df_estatistico.columns[2:].tolist()  # Pegando os nomes das colunas a partir da terceira coluna
-    
+
     return feature_names
 
