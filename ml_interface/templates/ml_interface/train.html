@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IA-Trainer - Interface Web Django</title>
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
+    
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .container {
+            max-width: 1200px;
+            margin-top: 30px;
+            margin-bottom: 50px;
+        }
+        .card {
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border: none;
+            margin-bottom: 20px;
+        }
+        .card-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            font-weight: bold;
+        }
+        .form-label {
+            font-weight: 500;
+            color: #495057;
+        }
+        .help-text {
+            font-size: 0.85rem;
+            color: #6c757d;
+        }
+        
+        /* Overlay de carregamento */
+        #loading-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0.9);
+            z-index: 9999;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+        #loading-overlay.active {
+            display: flex;
+        }
+        .spinner-border-lg {
+            width: 5rem;
+            height: 5rem;
+        }
+        .loading-text {
+            margin-top: 20px;
+            font-size: 1.2rem;
+            color: #667eea;
+            font-weight: bold;
+        }
+        
+        /* Resultados */
+        .result-card {
+            background-color: #e8f5e9;
+            border-left: 5px solid #4caf50;
+        }
+        .error-card {
+            background-color: #ffebee;
+            border-left: 5px solid #f44336;
+        }
+        .param-badge {
+            background-color: #667eea;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            margin: 3px;
+            display: inline-block;
+        }
+        
+        /* Botão de exemplo JSON */
+        .btn-example {
+            font-size: 0.8rem;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Overlay de Carregamento -->
+<div id="loading-overlay">
+    <div class="spinner-border text-primary spinner-border-lg" role="status">
+        <span class="visually-hidden">Processando...</span>
+    </div>
+    <div class="loading-text">
+        <i class="bi bi-cpu-fill"></i> Treinando Modelo...
+    </div>
+    <p class="text-muted mt-2">Isso pode levar alguns minutos dependendo dos dados e hiperparâmetros.</p>
+</div>
+
+<div class="container">
+    <h1 class="text-center mb-4">
+        <i class="bi bi-robot"></i> IA-Trainer - Interface Web
+    </h1>
+    
+    {% if error_message %}
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <i class="bi bi-exclamation-triangle-fill"></i> 
+        <strong>Erro:</strong> {{ error_message|linebreaks }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% endif %}
+    
+    {% if training_result %}
+    <div class="card result-card mb-4">
+        <div class="card-header">
+            <i class="bi bi-check-circle-fill"></i> Treinamento Concluído com Sucesso!
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <h5><i class="bi bi-graph-up"></i> Métricas</h5>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item d-flex justify-content-between">
+                            <span>Acurácia (Treino):</span>
+                            <strong>{{ training_result.train_accuracy|floatformat:4 }}</strong>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between">
+                            <span>Acurácia (Teste):</span>
+                            <strong>{{ training_result.test_accuracy|floatformat:4 }}</strong>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between">
+                            <span>Melhor Score CV:</span>
+                            <strong>{{ training_result.best_cv_score|floatformat:4 }}</strong>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between">
+                            <span>Folds:</span>
+                            <strong>{{ training_result.cv_folds_used }}</strong>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between">
+                            <span>Random State:</span>
+                            <strong>{{ training_result.random_state_used }}</strong>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between">
+                            <span>Combinações Testadas:</span>
+                            <strong>{{ training_result.n_combinations }}</strong>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-md-6">
+                    <h5><i class="bi bi-sliders"></i> Melhores Hiperparâmetros</h5>
+                    <div class="border rounded p-3 bg-white" style="max-height: 300px; overflow-y: auto;">
+                        {% for key, value in training_result.best_params.items %}
+                        <span class="param-badge">{{ key }}: {{ value }}</span>
+                        {% endfor %}
+                    </div>
+                    
+                    <hr>
+                    
+                    <h5><i class="bi bi-download"></i> Download do Modelo</h5>
+                    <a href="{% url 'download_model' training_result.model_filename %}" class="btn btn-success w-100">
+                        <i class="bi bi-file-earmark-arrow-down"></i> Baixar {{ training_result.model_filename }}
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+    
+    <form method="post" enctype="multipart/form-data" id="training-form">
+        {% csrf_token %}
+        
+        <!-- Upload e Seleção de Colunas -->
+        <div class="card">
+            <div class="card-header">
+                <i class="bi bi-file-earmark-spreadsheet"></i> 1. Dados e Colunas
+            </div>
+            <div class="card-body">
+                <div class="mb-3">
+                    <label for="{{ form.excel_file.id_for_label }}" class="form-label">
+                        {{ form.excel_file.label }}
+                    </label>
+                    {{ form.excel_file }}
+                    <small class="help-text d-block">{{ form.excel_file.help_text }}</small>
+                    {% if form.excel_file.errors %}
+                        <div class="text-danger">{{ form.excel_file.errors }}</div>
+                    {% endif %}
+                </div>
+                
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="{{ form.feature_columns.id_for_label }}" class="form-label">
+                                {{ form.feature_columns.label }}
+                            </label>
+                            {{ form.feature_columns }}
+                            <small class="help-text d-block">{{ form.feature_columns.help_text }}</small>
+                            {% if form.feature_columns.errors %}
+                                <div class="text-danger">{{ form.feature_columns.errors }}</div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="{{ form.target_column.id_for_label }}" class="form-label">
+                                {{ form.target_column.label }}
+                            </label>
+                            {{ form.target_column }}
+                            <small class="help-text d-block">{{ form.target_column.help_text }}</small>
+                            {% if form.target_column.errors %}
+                                <div class="text-danger">{{ form.target_column.errors }}</div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Validação Cruzada e Reprodutibilidade -->
+        <div class="card">
+            <div class="card-header">
+                <i class="bi bi-shuffle"></i> 2. Validação Cruzada e Reprodutibilidade
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="{{ form.cv_folds.id_for_label }}" class="form-label">
+                                {{ form.cv_folds.label }}
+                            </label>
+                            {{ form.cv_folds }}
+                            <small class="help-text d-block">{{ form.cv_folds.help_text }}</small>
+                            {% if form.cv_folds.errors %}
+                                <div class="text-danger">{{ form.cv_folds.errors }}</div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="{{ form.random_state.id_for_label }}" class="form-label">
+                                {{ form.random_state.label }}
+                            </label>
+                            {{ form.random_state }}
+                            <small class="help-text d-block">{{ form.random_state.help_text }}</small>
+                            {% if form.random_state.errors %}
+                                <div class="text-danger">{{ form.random_state.errors }}</div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Configuração de Hiperparâmetros -->
+        <div class="card">
+            <div class="card-header">
+                <i class="bi bi-gear-fill"></i> 3. Configuração de Hiperparâmetros (JSON)
+            </div>
+            <div class="card-body">
+                <div class="mb-3">
+                    <label for="{{ form.hyperparameters_json.id_for_label }}" class="form-label">
+                        {{ form.hyperparameters_json.label }}
+                    </label>
+                    {{ form.hyperparameters_json }}
+                    <small class="help-text d-block">{{ form.hyperparameters_json.help_text }}</small>
+                    {% if form.hyperparameters_json.errors %}
+                        <div class="text-danger">{{ form.hyperparameters_json.errors }}</div>
+                    {% endif %}
+                    
+                    <button type="button" class="btn btn-outline-secondary btn-example" id="btn-fill-example">
+                        <i class="bi bi-magic"></i> Preencher Exemplo
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Botão de Submit -->
+        <div class="d-grid gap-2">
+            <button type="submit" class="btn btn-primary btn-lg" id="btn-submit">
+                <i class="bi bi-play-fill"></i> Iniciar Treinamento
+            </button>
+        </div>
+    </form>
+</div>
+
+<!-- Bootstrap 5 JS Bundle -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const excelInput = document.getElementById('{{ form.excel_file.id_for_label }}');
+    const featureSelect = document.getElementById('{{ form.feature_columns.id_for_label }}');
+    const targetSelect = document.getElementById('{{ form.target_column.id_for_label }}');
+    const loadingOverlay = document.getElementById('loading-overlay');
+    const trainingForm = document.getElementById('training-form');
+    const btnSubmit = document.getElementById('btn-submit');
+    const btnExample = document.getElementById('btn-fill-example');
+    const hyperparamsTextarea = document.getElementById('{{ form.hyperparameters_json.id_for_label }}');
+    
+    // Exemplo de configuração JSON
+    const exampleJson = `{
+    "scaler": {
+        "class": "StandardScaler",
+        "params": {}
+    },
+    "pca": {
+        "enabled": false,
+        "class": "PCA",
+        "params": {
+            "n_components": 0.95
+        }
+    },
+    "classifier": {
+        "class": "MLPClassifier",
+        "params_grid": {
+            "activation": ["tanh", "relu"],
+            "hidden_layer_sizes": [(24,), (32,)],
+            "alpha": [0.0001, 0.0005],
+            "learning_rate_init": [0.01, 0.015],
+            "max_iter": [500, 1000]
+        }
+    }
+}`;
+    
+    // Botão de exemplo JSON
+    btnExample.addEventListener('click', function() {
+        hyperparamsTextarea.value = exampleJson;
+    });
+    
+    // Extrair colunas ao fazer upload do Excel
+    excelInput.addEventListener('change', function() {
+        if (this.files && this.files[0]) {
+            const formData = new FormData();
+            formData.append('excel_file', this.files[0]);
+            
+            fetch('{% url "extract_columns" %}?excel_file=' + encodeURIComponent(this.files[0].name), {
+                method: 'GET',
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    populateSelects(data.columns);
+                } else {
+                    alert('Erro ao extrair colunas: ' + data.error);
+                }
+            })
+            .catch(error => {
+                console.error('Erro:', error);
+                // Fallback: tentar extrair via AJAX com o arquivo
+                extractColumnsAjax(this.files[0]);
+            });
+        }
+    });
+    
+    // Função alternativa para extrair colunas via POST com arquivo
+    function extractColumnsAjax(file) {
+        const formData = new FormData();
+        formData.append('excel_file', file);
+        
+        fetch('{% url "extract_columns" %}', {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest',
+                'X-CSRFToken': getCookie('csrftoken')
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                populateSelects(data.columns);
+            } else {
+                alert('Erro ao extrair colunas: ' + data.error);
+            }
+        })
+        .catch(error => {
+            console.error('Erro:', error);
+            alert('Não foi possível extrair as colunas automaticamente. Selecione manualmente.');
+        });
+    }
+    
+    function populateSelects(columns) {
+        // Limpa opções existentes
+        featureSelect.innerHTML = '';
+        targetSelect.innerHTML = '';
+        
+        // Adiciona novas opções
+        columns.forEach(col => {
+            const optionFeature = document.createElement('option');
+            optionFeature.value = col;
+            optionFeature.textContent = col;
+            featureSelect.appendChild(optionFeature);
+            
+            const optionTarget = document.createElement('option');
+            optionTarget.value = col;
+            optionTarget.textContent = col;
+            targetSelect.appendChild(optionTarget);
+        });
+        
+        // Seleciona automaticamente a última coluna como target (comum em datasets)
+        if (columns.length > 0) {
+            targetSelect.value = columns[columns.length - 1];
+        }
+    }
+    
+    // Submit do formulário com overlay
+    trainingForm.addEventListener('submit', function(e) {
+        // Valida se há colunas selecionadas
+        if (featureSelect.selectedOptions.length === 0) {
+            e.preventDefault();
+            alert('Por favor, selecione pelo menos uma coluna feature.');
+            return;
+        }
+        
+        if (!targetSelect.value) {
+            e.preventDefault();
+            alert('Por favor, selecione uma coluna target.');
+            return;
+        }
+        
+        // Mostra overlay e desabilita formulário
+        loadingOverlay.classList.add('active');
+        btnSubmit.disabled = true;
+        btnSubmit.innerHTML = '<i class="bi bi-hourglass-split"></i> Processando...';
+        
+        // Permite o submit continuar
+        // e.preventDefault() NÃO é chamado aqui
+    });
+    
+    // Função para pegar CSRF token
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+});
+</script>
+
+</body>
+</html>
