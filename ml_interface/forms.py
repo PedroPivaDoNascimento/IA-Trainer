@@ -18,27 +18,7 @@ class TrainingForm(forms.Form):
             'class': 'form-control',
             'accept': '.xlsx,.xls'
         }),
-        help_text="Upload de um único arquivo Excel contendo features e target."
-    )
-    
-    # Seleção de colunas (serão populadas dinamicamente via JS)
-    feature_columns = forms.MultipleChoiceField(
-        label="Colunas Features (X)",
-        choices=[],
-        widget=forms.SelectMultiple(attrs={
-            'class': 'form-control',
-            'size': '10'
-        }),
-        help_text="Selecione múltiplas colunas para usar como features."
-    )
-    
-    target_column = forms.ChoiceField(
-        label="Coluna Target (y)",
-        choices=[],
-        widget=forms.Select(attrs={
-            'class': 'form-control'
-        }),
-        help_text="Selecione a coluna que contém os rótulos/classes."
+        help_text="Upload de um único arquivo Excel. A ÚLTIMA coluna será usada como Target (y), todas as anteriores como Features (X)."
     )
     
     # Validação Cruzada
@@ -91,7 +71,7 @@ class TrainingForm(forms.Form):
         "class": "MLPClassifier",
         "params_grid": {
             "activation": ["tanh", "relu"],
-            "hidden_layer_sizes": [(24,), (32,)],
+            "hidden_layer_sizes": [[24], [32]],
             "alpha": [0.0001, 0.0005],
             "learning_rate_init": [0.01, 0.015],
             "max_iter": [500, 1000]
@@ -124,14 +104,3 @@ Exemplo de classes disponíveis:
             except json.JSONDecodeError as e:
                 raise ValidationError(f"JSON inválido: {str(e)}")
         return json_data
-    
-    def set_column_choices(self, columns):
-        """
-        Define as opções de colunas dinamicamente.
-        
-        Args:
-            columns: Lista de nomes de colunas do Excel.
-        """
-        choices = [(col, col) for col in columns]
-        self.fields['feature_columns'].choices = choices
-        self.fields['target_column'].choices = choices

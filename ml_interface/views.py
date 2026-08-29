@@ -5,6 +5,8 @@ import json
 import os
 import tempfile
 import traceback
+import logging
+import numpy as np
 from django.shortcuts import render, redirect
 from django.http import JsonResponse
 from django.conf import settings
@@ -18,40 +20,44 @@ from .forms import TrainingForm
 from .utils.cleanup import cleanup_old_models
 from .utils.dynamic_trainer import DynamicTrainer
 
+logger = logging.getLogger(__name__)
 
-@require_GET
+
+@require_POST
 def extract_columns(request):
     """
     View AJAX para extrair colunas de um arquivo Excel enviado.
-    Usada para popular dinamicamente os selects de features e target.
+    Nota: Com a nova regra (última coluna = target), esta view pode ser menos utilizada,
+    mas mantida para possíveis validações futuras ou exibição de preview.
     """
-    if request.method == 'GET' and request.FILES.get('excel_file'):
-        try:
-            excel_file = request.FILES['excel_file']
-            
-            # Lê apenas as primeiras linhas para pegar os cabeçalhos
-            df = pd.read_excel(excel_file, nrows=5)
-            columns = df.columns.tolist()
-            
-            return JsonResponse({
-                'success': True,
-                'columns': columns
-            })
-        except Exception as e:
+    try:
+        excel_file = request.FILES.get('excel_file')
+        
+        if not excel_file:
             return JsonResponse({
                 'success': False,
-                'error': str(e)
+                'error': 'Nenhum arquivo enviado'
             }, status=400)
-    
-    return JsonResponse({
-        'success': False,
-        'error': 'Nenhum arquivo enviado'
-    }, status=400)
+        
+        # Lê apenas as primeiras linhas para pegar os cabeçalhos
+        df = pd.read_excel(excel_file, nrows=5)
+        columns = df.columns.tolist()
+        
+        return JsonResponse({
+            'success': True,
+            'columns': columns
+        })
+    except Exception as e:
+        return JsonResponse({
+            'success': False,
+            'error': str(e)
+        }, status=400)
 
 
 def train_view(request):
     """
     View principal que renderiza o formulário e processa o treinamento.
+    Regra de Negócio: A última coluna do Excel é sempre o Target (y).
     """
     form = TrainingForm()
     context = {
@@ -70,14 +76,15 @@ def train_view(request):
                 
                 # 2. Extrai dados do formulário
                 excel_file = request.FILES['excel_file']
-                feature_columns = form.cleaned_data['feature_columns']
-                target_column = form.cleaned_data['target_column']
                 cv_folds = form.cleaned_data['cv_folds']
                 random_state = form.cleaned_data['random_state']
                 hyperparams_json = form.cleaned_data['hyperparameters_json']
                 
                 # 3. Parse da configuração JSON
-                config = json.loads(hyperparams_json)
+                try:
+                    config = json.loads(hyperparams_json)
+                except json.JSONDecodeError as e:
+                    raise ValueError(f"JSON inválido: {str(e)}")
                 
                 # 4. Salva arquivo temporariamente e carrega dados
                 with tempfile.NamedTemporaryFile(delete=False, suffix='.xlsx') as tmp_file:
@@ -89,16 +96,35 @@ def train_view(request):
                     # Carrega o DataFrame
                     df = pd.read_excel(tmp_path)
                     
+                    # REGRA AUTOMÁTICA: Última coluna é Target, resto é Feature
+                    all_columns = df.columns.tolist()
+                    if len(all_columns) < 2:
+                        raise ValueError("O arquivo deve ter pelo menos 2 colunas (1 feature e 1 target).")
+                    
+                    feature_columns = all_columns[:-1]  # Todas exceto a última
+                    target_column = all_columns[-1]      # Última coluna
+                    
+                    logger.info(f"Features detectadas: {feature_columns}")
+                    logger.info(f"Target detectado: {target_column}")
+                    
                     # Separa features e target
                     X = df[feature_columns].values
                     y = df[target_column].values
+                    
+                    # Tratamento básico de tipos para evitar erros no sklearn
+                    # Converte y para numérico se for categórico
+                    if not np.issubdtype(y.dtype, np.number):
+                        from sklearn.preprocessing import LabelEncoder
+                        le = LabelEncoder()
+                        y = le.fit_transform(y)
+                        logger.info(f"Target codificado com LabelEncoder. Classes: {le.classes_}")
                     
                     # 5. Split dos dados com random_state controlado
                     X_train, X_test, y_train, y_test = train_test_split(
                         X, y, 
                         test_size=0.2, 
                         random_state=random_state, 
-                        stratify=y
+                        stratify=y if len(np.unique(y)) > 1 else None # Evita erro se só houver 1 classe
                     )
                     
                     # 6. Treina o modelo
@@ -133,6 +159,8 @@ def train_view(request):
                         'cv_folds_used': cv_folds,
                         'random_state_used': random_state,
                         'n_combinations': len(grid_search.cv_results_['params']),
+                        'features_used': feature_columns,
+                        'target_used': target_column
                     }
                     
                 finally:
@@ -140,12 +168,23 @@ def train_view(request):
                     if os.path.exists(tmp_path):
                         os.remove(tmp_path)
                 
-            except json.JSONDecodeError as e:
-                context['error_message'] = f"Erro ao parsear JSON de hiperparâmetros: {str(e)}"
+            except ValueError as ve:
+                context['error_message'] = f"Erro de Dados/Configuração: {str(ve)}"
             except Exception as e:
-                context['error_message'] = f"Erro durante o treinamento: {str(e)}\n\n{traceback.format_exc()}"
+                context['error_message'] = f"Erro durante o treinamento: {str(e)}\n\nDetalhes: {traceback.format_exc()}"
         else:
-            context['error_message'] = "Erro de validação no formulário. Verifique os campos."
+            # Mostrar erros de validação detalhados para o usuário
+            error_details = []
+            for field_name, field_errors in form.errors.items():
+                field_label = form.fields.get(field_name, {}).label if hasattr(form.fields.get(field_name), 'label') else field_name
+                for error in field_errors:
+                    error_details.append(f"<strong>{field_label}:</strong> {error}")
+            
+            if not error_details:
+                error_details.append("Verifique todos os campos do formulário.")
+            
+            context['error_message'] = '<br><br>'.join(error_details)
+            logger.error(f"Erros de validação do formulário: {form.errors}")
     
     return render(request, 'ml_interface/train.html', context)
 
