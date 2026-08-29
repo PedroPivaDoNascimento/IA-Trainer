@@ -1,5 +1,5 @@
 """
-Interface de visualização e salvar o modelo.
+Interface de visualização e salvamento do modelo (Regressão).
 """
 import joblib
 import pandas as pd
@@ -11,20 +11,19 @@ class ReportView:
 
     def display_cv_metrics(self, metrics: Dict[str, float], focus: str) -> None:
         """
-        Exibe as métricas de validação cruzada no console.
+        Exibe as métricas de validação cruzada para regressão no console.
 
         Args:
-            metrics: Dicionário com as médias do CV.
+            metrics: Dicionário com as médias do CV (r2, mae, mse, rmse, std).
             focus: Métrica foco utilizada no treinamento.
         """
         header = f"\n{'='*60}\nMELHOR MODELO — OTIMIZADO POR: {focus.upper()}\n{'='*60}"
         print(header)
-        print(f"{'Acuracia(CV - accuracy)':<28} {metrics['accuracy']:.2f}%")
-        print(f"{'Acuracia(CV - f1_score)':<28} {metrics['f1_score']:.2f}%")
-        print(f"{'Acuracia(CV - precision)':<28} {metrics['precision']:.2f}%")
-        print(f"{'Acuracia(CV - recall)':<28} {metrics['recall']:.2f}%")
-        print(f"{'Acuracia(CV - roc_auc)':<28} {metrics['roc_auc']:.2f}%")
-        print(f"{'Desvio Padrão (CV - ' + focus + ')':<28} {metrics['std']:.4f}%")
+        print(f"{'Métrica (CV - R2 Score)':<28} {metrics['r2']:.4f}")
+        print(f"{'Métrica (CV - MAE)':<28} {metrics['mae']:.4f}")
+        print(f"{'Métrica (CV - MSE)':<28} {metrics['mse']:.4f}")
+        print(f"{'Métrica (CV - RMSE)':<28} {metrics['rmse']:.4f}")
+        print(f"{'Desvio Padrão (CV - ' + focus + ')':<28} {metrics['std']:.4f}")
         print(f"{'-'*60}")
 
     def save_model(self, grid: any, filename: str) -> None:
@@ -47,14 +46,14 @@ class ReportView:
         metric_focus: str
     ) -> None:
         """
-        Exibe o resumo final do treinamento e a média dos relatórios.
+        Exibe o resumo final do treinamento e os relatórios de regressão.
 
         Args:
             all_metrics: Lista de dicionários de métricas por execução.
-            all_reports: Lista de strings de classificação.
+            all_reports: Lista de relatórios em texto.
             all_params: Lista de melhores hiperparâmetros.
             random_states: Sementes utilizadas.
-            total_minutes: Tempo total de execução.
+            metric_focus: Métrica principal da otimização.
         """
         print("\n Melhores modelos:")
         for i in range(len(all_metrics)):

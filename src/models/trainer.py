@@ -1,32 +1,31 @@
 """
-Treinamento de modelos com validação cruzada.
+Treinamento de modelos com validação cruzada para REGRESSÃO.
 """
 from typing import Any
 import numpy as np
 from sklearn.pipeline import Pipeline
-from sklearn.model_selection import GridSearchCV
+from sklearn.model_selection import GridSearchCV, KFold  # 1. Trocado StratifiedKFold por KFold
 from sklearn.preprocessing import StandardScaler
 from sklearn.decomposition import PCA
-from sklearn.svm import SVC
+from sklearn.svm import SVR  # 2. Trocado SVC por SVR (Regressor)
 from config.settings import METRIC_SCORING_MAP, SCORING_PIPELINE_MAP
 from models.model_config import ModelConfig
-from sklearn.model_selection import StratifiedKFold
 
 
 class Trainer:
-    """Orquestra o treinamento e a busca de hiperparâmetros."""
+    """Orquestra o treinamento e a busca de hiperparâmetros para modelos de regressão."""
 
     def __init__(self, metric_focus: str, dict_params: dict = None) -> None:
         """
         Inicializa o treinador.
 
         Args:
-            metric_focus: Métrica alvo para otimização (ex: 'f1_score', 'recall').
+            metric_focus: Métrica alvo para otimização (ex: 'r2', 'mae', 'mse').
         """
         self.metric_focus = metric_focus
         self.param_grid = dict_params if dict_params is not None else ModelConfig.get_param_grid()        
-        self.refit_metric = METRIC_SCORING_MAP[metric_focus] # Metrica que o treinamento irá tentar achar o melhor modelo
-        self.scoring = SCORING_PIPELINE_MAP # Metricas usadas no GridSearch
+        self.refit_metric = METRIC_SCORING_MAP[metric_focus] # Métrica principal (ex: 'r2' ou 'neg_mean_squared_error')
+        self.scoring = SCORING_PIPELINE_MAP # Dicionário com métricas válidas de regressão
         self.random_state = 31
 
     def _create_base_pipeline(self) -> Pipeline:
@@ -39,7 +38,7 @@ class Trainer:
         return Pipeline([
             ("scaler", StandardScaler()),
             ("reducao", PCA()),
-            ("clf", SVC())
+            ("clf", SVR())  
         ])
 
     def train(self, X_train: np.ndarray, y_train: np.ndarray, random_state: int = 67) -> Any:
@@ -48,15 +47,15 @@ class Trainer:
 
         Args:
             X_train: Features do conjunto de treino.
-            y_train: Labels do conjunto de treino.
+            y_train: Labels/Valores contínuos do conjunto de treino.
 
         Returns:
             Objeto GridSearchCV treinado.
         """
         pipeline = self._create_base_pipeline()
 
-        cv = StratifiedKFold(
-            n_splits=5, # Testar mais números 4, 5, 6
+        cv = KFold(
+            n_splits=5,
             shuffle=True,
             random_state=random_state
         )

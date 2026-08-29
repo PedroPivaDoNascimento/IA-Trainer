@@ -1,4 +1,1764 @@
 ### 📄 /home/piva/Documentos/Programação/Python/IA-Trainer/src/models/model_config.py
+*Saved at: 29/08/2026, 13:55:53*
+
+**[REMOVED]**
+```
+(from line ~29)
+            StandardScaler(),
+
+```
+**[ADDED]**
+```
+29                #StandardScaler(),
+```
+**[REMOVED]**
+```
+(from line ~31)
+            MinMaxScaler(),
+
+```
+**[ADDED]**
+```
+31                #MinMaxScaler(),
+```
+**[REMOVED]**
+```
+(from line ~33)
+            QuantileTransformer(output_distribution="uniform", random_state=42),
+
+```
+**[ADDED]**
+```
+33                #QuantileTransformer(output_distribution="uniform", random_state=42),
+```
+**[REMOVED]**
+```
+(from line ~35)
+            PowerTransformer(method="yeo-johnson"),
+            Normalizer(norm="l2"),
+
+```
+**[ADDED]**
+```
+35                #PowerTransformer(method="yeo-johnson"),
+36                #Normalizer(norm="l2"),
+```
+**[REMOVED]**
+```
+(from line ~39)
+            RobustScaler(),
+
+```
+**[ADDED]**
+```
+39                #RobustScaler(),
+```
+**[REMOVED]**
+```
+(from line ~51)
+            PCA(n_components=0.95, random_state=31),
+
+```
+**[ADDED]**
+```
+51                #PCA(n_components=0.95, random_state=31),
+```
+**[REMOVED]**
+```
+(from line ~53)
+            SelectKBest(score_func=f_regression, k="all")
+
+```
+**[ADDED]**
+```
+53                #SelectKBest(score_func=f_regression, k="all")
+```
+
+---
+
+### 📄 /home/piva/Documentos/Programação/Python/IA-Trainer/src/models/model_config.py
+*Saved at: 29/08/2026, 13:55:35*
+
+**[REMOVED]**
+```
+(from line ~181)
+                "clf__alpha": [0.1, 1.0, 10.0, 100.0],
+
+```
+**[ADDED]**
+```
+181                   "clf__alpha": [0.01, 0.1],
+```
+
+---
+
+### 📄 /home/piva/Documentos/Programação/Python/IA-Trainer/src/models/model_config.py
+*Saved at: 29/08/2026, 13:49:31*
+
+**[REMOVED]**
+```
+(from line ~51)
+            #PCA(n_components=0.95, random_state=31),
+
+```
+**[ADDED]**
+```
+51                PCA(n_components=0.95, random_state=31),
+```
+**[REMOVED]**
+```
+(from line ~53)
+            #SelectKBest(score_func=f_regression, k="all")
+
+```
+**[ADDED]**
+```
+53                SelectKBest(score_func=f_regression, k="all")
+```
+
+---
+
+### 📄 /home/piva/Documentos/Programação/Python/IA-Trainer/src/models/model_config.py
+*Saved at: 29/08/2026, 13:47:33*
+
+**[REMOVED]**
+```
+(from line ~29)
+            #StandardScaler(),
+
+```
+**[ADDED]**
+```
+29                StandardScaler(),
+```
+**[REMOVED]**
+```
+(from line ~31)
+            #MinMaxScaler(),
+            #MaxAbsScaler(),
+            #QuantileTransformer(output_distribution="uniform", random_state=42),
+
+```
+**[ADDED]**
+```
+31                MinMaxScaler(),
+32                MaxAbsScaler(),
+33                QuantileTransformer(output_distribution="uniform", random_state=42),
+```
+**[REMOVED]**
+```
+(from line ~35)
+            #PowerTransformer(method="yeo-johnson"),
+            #Normalizer(norm="l2"),
+
+```
+**[ADDED]**
+```
+35                PowerTransformer(method="yeo-johnson"),
+36                Normalizer(norm="l2"),
+```
+
+---
+
+### 📄 /home/piva/Documentos/Programação/Python/IA-Trainer/src/models/model_config.py
+*Saved at: 29/08/2026, 13:47:08*
+
+**[REMOVED]**
+```
+(from line ~183)
+                "reducao": ["passthrough"],
+
+```
+**[ADDED]**
+```
+183                   "reducao": reducoes,
+```
+
+---
+
+### 📄 /home/piva/Documentos/Programação/Python/IA-Trainer/src/models/model_config.py
+*Saved at: 29/08/2026, 13:46:56*
+
+**[ADDED]**
+```
+179               {
+180                   "clf": [Ridge()],
+181                   "clf__alpha": [0.1, 1.0, 10.0, 100.0],
+182                   "scaler": scalers,
+183                   "reducao": ["passthrough"],
+184               },
+```
+**[REMOVED]**
+```
+(from line ~186)
+            #    "clf": [Ridge()],
+            #    "clf__alpha": [0.1, 1.0, 10.0, 100.0],
+            #    "scaler": scalers,
+            #    "reducao": ["passthrough"],
+            #},
+            #{
+
+```
+
+---
+
+### 📄 /home/piva/Documentos/Programação/Python/IA-Trainer/src/models/model_config.py
+*Saved at: 29/08/2026, 13:46:06*
+
+**[REMOVED]**
+```
+(from line ~174)
+            {
+                "clf": [LinearRegression()],
+                "scaler": scalers,
+                "reducao": reducoes,
+            },
+
+```
+**[ADDED]**
+```
+175               #    "clf": [LinearRegression()],
+176               #    "scaler": scalers,
+177               #    "reducao": reducoes,
+178               #},
+179               #{
+```
+
+---
+
+### 📄 /home/piva/Documentos/Programação/Python/IA-Trainer/src/models/model_config.py
+*Saved at: 29/08/2026, 13:45:22*
+
+**[REMOVED]**
+```
+(from line ~51)
+            PCA(n_components=0.95, random_state=31),
+
+```
+**[ADDED]**
+```
+51                #PCA(n_components=0.95, random_state=31),
+```
+**[REMOVED]**
+```
+(from line ~176)
+                "clf__fit_intercept": [True, False],
+                "clf__positive": [True, False],
+
+```
+
+---
+
+### 📄 /home/piva/Documentos/Programação/Python/IA-Trainer/src/models/model_config.py
+*Saved at: 29/08/2026, 13:44:23*
+
+**[REMOVED]**
+```
+(from line ~31)
+            MinMaxScaler(),
+            MaxAbsScaler(),
+            QuantileTransformer(output_distribution="uniform", random_state=42),
+
+```
+**[ADDED]**
+```
+31                #MinMaxScaler(),
+32                #MaxAbsScaler(),
+33                #QuantileTransformer(output_distribution="uniform", random_state=42),
+```
+**[REMOVED]**
+```
+(from line ~35)
+            PowerTransformer(method="yeo-johnson"),
+            Normalizer(norm="l2"),
+
+```
+**[ADDED]**
+```
+35                #PowerTransformer(method="yeo-johnson"),
+36                #Normalizer(norm="l2"),
+```
+**[REMOVED]**
+```
+(from line ~43)
+            StandardScaler(),
+
+```
+**[ADDED]**
+```
+43                #StandardScaler(),
+```
+**[REMOVED]**
+```
+(from line ~53)
+            SelectKBest(score_func=f_regression, k="all")
+
+```
+**[ADDED]**
+```
+53                #SelectKBest(score_func=f_regression, k="all")
+```
+
+---
+
+### 📄 /home/piva/Documentos/Programação/Python/IA-Trainer/src/models/model_config.py
+*Saved at: 29/08/2026, 13:42:09*
+
+**[ADDED]**
+```
+176                   "clf__fit_intercept": [True, False],
+177                   "clf__positive": [True, False],
+```
+
+---
+
+### 📄 /home/piva/Documentos/Programação/Python/IA-Trainer/src/models/model_config.py
+*Saved at: 29/08/2026, 13:40:29*
+
+**[REMOVED]**
+```
+(from line ~51)
+            #PCA(n_components=0.95, random_state=31),
+
+```
+**[ADDED]**
+```
+51                PCA(n_components=0.95, random_state=31),
+```
+**[REMOVED]**
+```
+(from line ~53)
+            #SelectKBest(score_func=f_regression, k="all")
+
+```
+**[ADDED]**
+```
+53                SelectKBest(score_func=f_regression, k="all")
+```
+
+---
+
+### 📄 /home/piva/Documentos/Programação/Python/IA-Trainer/src/models/model_config.py
+*Saved at: 29/08/2026, 13:36:22*
+
+**[REMOVED]**
+```
+(from line ~51)
+            PCA(n_components=0.95, random_state=31),
+
+```
+**[ADDED]**
+```
+51                #PCA(n_components=0.95, random_state=31),
+```
+**[REMOVED]**
+```
+(from line ~53)
+            SelectKBest(score_func=f_regression, k="all")
+
+```
+**[ADDED]**
+```
+53                #SelectKBest(score_func=f_regression, k="all")
+```
+
+---
+
+### 📄 /home/piva/Documentos/Programação/Python/IA-Trainer/src/config/settings.py
+*Saved at: 29/08/2026, 13:35:22*
+
+**[REMOVED]**
+```
+(from line ~12)
+    'rmse': 'rmse'  # Bate com a chave 'rmse' definida acima
+
+```
+**[ADDED]**
+```
+12        'rmse': 'rmse'
+```
+
+---
+
+### 📄 /home/piva/Documentos/Programação/Python/IA-Trainer/src/config/settings.py
+*Saved at: 29/08/2026, 13:34:31*
+
+**[REMOVED]**
+```
+(from line ~1)
+METRIC_SCORING_MAP = {
+
+```
+**[ADDED]**
+```
+1     SCORING_PIPELINE_MAP = {
+```
+**[REMOVED]**
+```
+(from line ~8)
+SCORING_PIPELINE_MAP = {
+
+```
+**[ADDED]**
+```
+8     METRIC_SCORING_MAP = {
+```
+**[REMOVED]**
+```
+(from line ~10)
+    'mae': 'neg_mean_absolute_error',
+    'mse': 'neg_mean_squared_error',
+    'rmse': 'neg_root_mean_squared_error'
+
+```
+**[ADDED]**
+```
+10        'mae': 'mae',
+11        'mse': 'mse',
+12        'rmse': 'rmse'  # Bate com a chave 'rmse' definida acima
+```
+
+---
+
+### 📄 /home/piva/Documentos/Programação/Python/IA-Trainer/src/config/settings.py
+*Saved at: 29/08/2026, 12:21:03*
+
+**[REMOVED]**
+```
+(from line ~1)
+"""
+Configurações globais, mapeamentos de métricas e constantes do projeto.
+"""
+
+# Mapeamento entre nomes amigáveis e strings internas do scikit-learn
+
+```
+**[REMOVED]**
+```
+(from line ~2)
+    "f1_score": "f1",
+    "accuracy": "accuracy",
+    "precision": "precision",
+    "recall": "recall",
+    "roc_auc": "roc_auc",
+
+```
+**[ADDED]**
+```
+2         'r2': 'r2',
+3         'mae': 'neg_mean_absolute_error',
+4         'mse': 'neg_mean_squared_error',
+5         'rmse': 'neg_root_mean_squared_error'
+```
+**[REMOVED]**
+```
+(from line ~9)
+    "f1": "f1",
+    "accuracy": "accuracy",
+    "precision": "precision",
+    "recall": "recall",
+    "roc_auc": "roc_auc",
+
+```
+**[ADDED]**
+```
+9         'r2': 'r2',
+10        'mae': 'neg_mean_absolute_error',
+11        'mse': 'neg_mean_squared_error',
+12        'rmse': 'neg_root_mean_squared_error'
+```
+**[REMOVED]**
+```
+(from line ~15)
+# Nomes das colunas de desvio padrão nos resultados do GridSearchCV
+
+```
+**[REMOVED]**
+```
+(from line ~16)
+    "f1_score": "std_test_f1",
+    "accuracy": "std_test_accuracy",
+    "precision": "std_test_precision",
+    "recall": "std_test_recall",
+    "roc_auc": "std_test_roc_auc",
+}
+
+# Nomes das classes no relatório de classificação
+CLASS_NAMES = ["CERTO (0)", "ERRADO (1)"]
+```
+**[ADDED]**
+```
+16        'r2': 'std_test_r2',
+17        'mae': 'std_test_mae',
+18        'mse': 'std_test_mse',
+19        'rmse': 'std_test_rmse'
+20    }
+```
+
+---
+
+### 📄 /home/piva/Documentos/Programação/Python/IA-Trainer/src/main.py
+*Saved at: 29/08/2026, 12:20:51*
+
+**[REMOVED]**
+```
+(from line ~24)
+    METRIC_FOCO = "mse"
+
+```
+**[ADDED]**
+```
+24        METRIC_FOCO = "rmse"
+```
+
+---
+
+### 📄 /home/piva/Documentos/Programação/Python/IA-Trainer/src/main.py
+*Saved at: 29/08/2026, 12:20:26*
+
+**[REMOVED]**
+```
+(from line ~24)
+    METRIC_FOCO = "rmse"
+
+```
+**[ADDED]**
+```
+24        METRIC_FOCO = "mse"
+```
+
+---
+
+### 📄 /home/piva/Documentos/Programação/Python/IA-Trainer/src/views/report_view.py
+*Saved at: 29/08/2026, 12:19:00*
+
+**[REMOVED]**
+```
+(from line ~2)
+Interface de visualização e salvar o modelo.
+
+```
+**[ADDED]**
+```
+2     Interface de visualização e salvamento do modelo (Regressão).
+```
+**[REMOVED]**
+```
+(from line ~14)
+        Exibe as métricas de validação cruzada no console.
+
+```
+**[ADDED]**
+```
+14            Exibe as métricas de validação cruzada para regressão no console.
+```
+**[REMOVED]**
+```
+(from line ~17)
+            metrics: Dicionário com as médias do CV.
+
+```
+**[ADDED]**
+```
+17                metrics: Dicionário com as médias do CV (r2, mae, mse, rmse, std).
+```
+**[REMOVED]**
+```
+(from line ~22)
+        print(f"{'Acuracia(CV - accuracy)':<28} {metrics['accuracy']:.2f}%")
+        print(f"{'Acuracia(CV - f1_score)':<28} {metrics['f1_score']:.2f}%")
+        print(f"{'Acuracia(CV - precision)':<28} {metrics['precision']:.2f}%")
+        print(f"{'Acuracia(CV - recall)':<28} {metrics['recall']:.2f}%")
+        print(f"{'Acuracia(CV - roc_auc)':<28} {metrics['roc_auc']:.2f}%")
+        print(f"{'Desvio Padrão (CV - ' + focus + ')':<28} {metrics['std']:.4f}%")
+
+```
+**[ADDED]**
+```
+22            print(f"{'Métrica (CV - R2 Score)':<28} {metrics['r2']:.4f}")
+23            print(f"{'Métrica (CV - MAE)':<28} {metrics['mae']:.4f}")
+24            print(f"{'Métrica (CV - MSE)':<28} {metrics['mse']:.4f}")
+25            print(f"{'Métrica (CV - RMSE)':<28} {metrics['rmse']:.4f}")
+26            print(f"{'Desvio Padrão (CV - ' + focus + ')':<28} {metrics['std']:.4f}")
+```
+**[REMOVED]**
+```
+(from line ~49)
+        Exibe o resumo final do treinamento e a média dos relatórios.
+
+```
+**[ADDED]**
+```
+49            Exibe o resumo final do treinamento e os relatórios de regressão.
+```
+**[REMOVED]**
+```
+(from line ~53)
+            all_reports: Lista de strings de classificação.
+
+```
+**[ADDED]**
+```
+53                all_reports: Lista de relatórios em texto.
+```
+**[REMOVED]**
+```
+(from line ~56)
+            total_minutes: Tempo total de execução.
+
+```
+**[ADDED]**
+```
+56                metric_focus: Métrica principal da otimização.
+```
+
+---
+
+### 📄 /home/piva/Documentos/Programação/Python/IA-Trainer/src/evaluators/metrics_handler.py
+*Saved at: 29/08/2026, 12:17:18*
+
+**[REMOVED]**
+```
+(from line ~2)
+Processamento de métricas e relatórios.
+
+```
+**[ADDED]**
+```
+2     Processamento de métricas e relatórios para Regressão.
+```
+**[REMOVED]**
+```
+(from line ~7)
+from sklearn.metrics import classification_report, roc_auc_score
+from config.settings import STD_MAP, CLASS_NAMES
+
+```
+**[ADDED]**
+```
+7     from sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score
+8     from config.settings import STD_MAP
+```
+**[REMOVED]**
+```
+(from line ~12)
+    """Calcula e agrega métricas de desempenho do modelo."""
+
+```
+**[ADDED]**
+```
+12        """Calcula e agrega métricas de desempenho para modelos de regressão."""
+```
+**[REMOVED]**
+```
+(from line ~20)
+        Avalia o melhor modelo encontrado no GridSearch.
+
+```
+**[ADDED]**
+```
+20            Avalia o melhor modelo encontrado no GridSearch usando métricas de regressão.
+```
+**[REMOVED]**
+```
+(from line ~25)
+            y_test: Labels de teste.
+
+```
+**[ADDED]**
+```
+25                y_test: Target de teste.
+```
+**[REMOVED]**
+```
+(from line ~28)
+            Tupla com (dicionário de métricas CV, string do classification_report).
+
+```
+**[ADDED]**
+```
+28                Tupla com (dicionário de métricas CV, string do relatório de regressão).
+```
+**[REMOVED]**
+```
+(from line ~32)
+        report = classification_report( 
+            y_test, y_pred, target_names=CLASS_NAMES, zero_division=0
+
+```
+**[ADDED]**
+```
+32    
+33            # Cálculo das métricas diretas no conjunto de teste
+34            mae = mean_absolute_error(y_test, y_pred)
+35            mse = mean_squared_error(y_test, y_pred)
+36            rmse = np.sqrt(mse)
+37            r2 = r2_score(y_test, y_pred)
+38    
+39            report = (
+40                "=== Relatório de Avaliação no Teste ===\n"
+41                f"R2 Score : {r2:.4f}\n"
+42                f"MAE      : {mae:.4f}\n"
+43                f"MSE      : {mse:.4f}\n"
+44                f"RMSE     : {rmse:.4f}\n"
+```
+**[REMOVED]**
+```
+(from line ~46)
+        report += f"ROC AUC: {roc_auc_score(y_test, y_pred):.2f}\n"
+
+```
+**[ADDED]**
+```
+48            
+49            # Leitura das métricas médias da Validação Cruzada do GridSearch
+50            # Nota: O scikit-learn usa valores negativos para MAE e MSE/RMSE no scoring (neg_*)
+51            # Usamos abs() para salvar com sinal positivo nos relatórios.
+```
+**[REMOVED]**
+```
+(from line ~53)
+            "accuracy": grid.cv_results_["mean_test_accuracy"][idx] * 100,
+            "f1_score": grid.cv_results_["mean_test_f1"][idx] * 100,
+            "precision": grid.cv_results_["mean_test_precision"][idx] * 100,
+            "recall": grid.cv_results_["mean_test_recall"][idx] * 100,
+            "roc_auc": grid.cv_results_["mean_test_roc_auc"][idx] * 100,
+            "std": grid.cv_results_[self.std_key][idx] * 100,
+
+```
+**[ADDED]**
+```
+53                "r2": grid.cv_results_["mean_test_r2"][idx],
+54                "mae": abs(grid.cv_results_["mean_test_mae"][idx]),
+55                "mse": abs(grid.cv_results_["mean_test_mse"][idx]),
+56                "rmse": abs(grid.cv_results_["mean_test_rmse"][idx]),
+57                "std": grid.cv_results_[self.std_key][idx],
+```
+**[REMOVED]**
+```
+(from line ~64)
+        Extrai os últimos `count` números de uma string.
+
+```
+**[ADDED]**
+```
+64            Extrai os últimos `count` números de uma string (incluindo suporte a números negativos e decimais).
+```
+**[REMOVED]**
+```
+(from line ~67)
+            line: Linha do relatório de classificação.
+
+```
+**[ADDED]**
+```
+67                line: Linha do relatório.
+```
+**[REMOVED]**
+```
+(from line ~73)
+
+        #\d+: Procura um ou mais dígitos (ex: 1, 50, 123).
+        #\.: Procura um ponto literal (o separador decimal).
+        #\d+\.\d+: Procura números com casas decimais (ex: 0.85, 10.5).
+        #|: Significa "OU".
+        #\d+: Procura números inteiros (ex: 50, 100).
+        
+        nums = [float(x) if "." in x else int(x) for x in re.findall(r"\d+\.\d+|\d+", line)]
+
+        # Retornmas os ultimos count numeros da linha se tivermos mais de count numeros
+
+```
+**[ADDED]**
+```
+73            nums = [float(x) for x in re.findall(r"[-+]?\d*\.\d+|\d+", line)]
+```
+**[REMOVED]**
+```
+(from line ~78)
+        Calcula a média ponderada das métricas de múltiplos relatórios.
+
+```
+**[ADDED]**
+```
+78            Calcula a média das métricas de regressão a partir de múltiplos relatórios.
+```
+**[REMOVED]**
+```
+(from line ~81)
+            reports: Lista de strings `classification_report`.
+
+```
+**[ADDED]**
+```
+81                reports: Lista de strings de relatórios gerados por `evaluate`.
+```
+**[REMOVED]**
+```
+(from line ~84)
+            String formatada com a média das métricas.
+
+```
+**[ADDED]**
+```
+84                String formatada com a média das métricas entre as iterações.
+```
+**[REMOVED]**
+```
+(from line ~89)
+        # Criando um dicíonario que guarda o precision, recall, f1 e support de cada classe
+
+```
+**[REMOVED]**
+```
+(from line ~90)
+            cls: {"p": [], "r": [], "f": [], "s": []} for cls in CLASS_NAMES
+
+```
+**[ADDED]**
+```
+90                "r2": [],
+91                "mae": [],
+92                "mse": [],
+93                "rmse": []
+```
+**[REMOVED]**
+```
+(from line ~96)
+        # Adicionando os valores de accuracy, macro avg e weighted avg para cada métrica
+        accumulator.update({
+            "accuracy": {"acc": [], "s": []},
+            "macro avg": {"p": [], "r": [], "f": [], "s": []},
+            "weighted avg": {"p": [], "r": [], "f": [], "s": []},
+            "roc_auc": []
+        })
+
+        # Pegando cada report na lista de todos os reports
+
+```
+**[REMOVED]**
+```
+(from line ~97)
+            for line in report.splitlines(): # Esse splitlines transforma cada quebra de linha em uma lista de strings
+                for cls in CLASS_NAMES:
+                    if cls in line: # Se a classe estiver na linha
+                        # Extrai os últimos 4 números da linha (Precision, Recall, F1, Support).
+                        nums = self.extract_last_numbers(line, 4)
+                        if len(nums) == 4:
+                            # zip associa as chaves ['p','r','f','s'] aos valores encontrados [num1, num2, num3, num4]
+                            for k, v in zip(["p", "r", "f", "s"], nums):
+                                accumulator[cls][k].append(v)
+
+                # Verificando se estamos na linha de accuracy
+                if "accuracy" in line:
+                    nums = self.extract_last_numbers(line, 2)
+                    if len(nums) == 2:
+                        accumulator["accuracy"]["acc"].append(nums[0])
+                        accumulator["accuracy"]["s"].append(nums[1])
+
+                # Percorrendo as linhas da média
+                for avg in ["macro avg", "weighted avg"]:
+                    if avg in line:
+                        nums = self.extract_last_numbers(line, 4)
+                        if len(nums) == 4:
+                            for k, v in zip(["p", "r", "f", "s"], nums):
+                                accumulator[avg][k].append(v)
+            
+                if "ROC AUC:" in line:
+
+```
+**[ADDED]**
+```
+97                for line in report.splitlines():
+98                    if "R2 Score" in line:
+```
+**[REMOVED]**
+```
+(from line ~100)
+                    if len(nums) == 1:
+                        accumulator["roc_auc"].append(nums[0])
+
+```
+**[ADDED]**
+```
+100                       if nums: accumulator["r2"].append(nums[0])
+101                   elif "MAE" in line:
+102                       nums = self.extract_last_numbers(line, 1)
+103                       if nums: accumulator["mae"].append(nums[0])
+104                   elif "MSE" in line:
+105                       nums = self.extract_last_numbers(line, 1)
+106                       if nums: accumulator["mse"].append(nums[0])
+107                   elif "RMSE" in line:
+108                       nums = self.extract_last_numbers(line, 1)
+109                       if nums: accumulator["rmse"].append(nums[0])
+```
+**[REMOVED]**
+```
+(from line ~114)
+        output = [f"{'':>12} {'precision':>9} {'recall':>9} {'f1-score':>9} {'support':>9}"]
+        for cls in CLASS_NAMES:
+            output.append(
+                f"{cls:>12} {safe_mean(accumulator[cls]['p']):>9.2f} "
+                f"{safe_mean(accumulator[cls]['r']):>9.2f} "
+                f"{safe_mean(accumulator[cls]['f']):>9.2f} "
+                f"{round(safe_mean(accumulator[cls]['s'])):>9}"
+            )
+
+```
+**[ADDED]**
+```
+114           output = [
+115               "=== Média Métrica Final (Múltiplas Rodadas) ===",
+116               f"R2 Score Médio : {safe_mean(accumulator['r2']):.4f}",
+117               f"MAE Médio      : {safe_mean(accumulator['mae']):.4f}",
+118               f"MSE Médio      : {safe_mean(accumulator['mse']):.4f}",
+119               f"RMSE Médio     : {safe_mean(accumulator['rmse']):.4f}",
+120           ]
+```
+**[REMOVED]**
+```
+(from line ~122)
+        output.append("")
+        output.append(
+            f"{'accuracy':>12} {safe_mean(accumulator['accuracy']['acc']):>30.2f} "
+            f"{round(safe_mean(accumulator['accuracy']['s'])):>9}"
+        )
+
+        for avg in ["macro avg", "weighted avg"]:
+            output.append(
+                f"{avg:>12} {safe_mean(accumulator[avg]['p']):>9.2f} "
+                f"{safe_mean(accumulator[avg]['r']):>9.2f} "
+                f"{safe_mean(accumulator[avg]['f']):>9.2f} "
+                f"{round(safe_mean(accumulator[avg]['s'])):>9}"
+            )
+        if accumulator["roc_auc"]:
+            output.append(f"ROC AUC: {safe_mean(accumulator['roc_auc']):.2f}")
+
+
+```
+
+---
+
+### 📄 /home/piva/Documentos/Programação/Python/IA-Trainer/src/main.py
+*Saved at: 29/08/2026, 11:48:21*
+
+**[REMOVED]**
+```
+(from line ~24)
+    METRIC_FOCO = "r2"
+
+```
+**[ADDED]**
+```
+24        METRIC_FOCO = "rmse"
+```
+**[REMOVED]**
+```
+(from line ~27)
+    controller = TrainingController(
+
+```
+**[ADDED]**
+```
+27        controller = TrainingController(    
+```
+
+---
+
+### 📄 /home/piva/Documentos/Programação/Python/IA-Trainer/src/main.py
+*Saved at: 29/08/2026, 11:45:40*
+
+**[REMOVED]**
+```
+(from line ~23)
+    # Métrica alvo: 'f1_score', 'accuracy', 'precision','recall' ou 'roc_auc'
+    METRIC_FOCO = "f1_score"
+
+```
+**[ADDED]**
+```
+23        # Métrica alvo para Regressão: 'r2', 'mae', 'mse' ou 'rmse'
+24        METRIC_FOCO = "r2"
+```
+
+---
+
+### 📄 /home/piva/Documentos/Programação/Python/IA-Trainer/src/models/trainer.py
+*Saved at: 29/08/2026, 11:44:42*
+
+**[REMOVED]**
+```
+(from line ~41)
+            ("clf", SVR())  # 2. Alterado de SVC() para SVR()
+
+```
+**[ADDED]**
+```
+41                ("clf", SVR())  
+```
+
+---
+
+### 📄 /home/piva/Documentos/Programação/Python/IA-Trainer/src/models/trainer.py
+*Saved at: 29/08/2026, 11:44:25*
+
+**[REMOVED]**
+```
+(from line ~57)
+        # 1. Utilização do KFold normal (adequado para variáveis contínuas)
+
+```
+
+---
+
+### 📄 /home/piva/Documentos/Programação/Python/IA-Trainer/src/models/trainer.py
+*Saved at: 29/08/2026, 11:44:17*
+
+**[REMOVED]**
+```
+(from line ~2)
+Treinamento de modelos com validação cruzada.
+
+```
+**[ADDED]**
+```
+2     Treinamento de modelos com validação cruzada para REGRESSÃO.
+```
+**[REMOVED]**
+```
+(from line ~7)
+from sklearn.model_selection import GridSearchCV
+
+```
+**[ADDED]**
+```
+7     from sklearn.model_selection import GridSearchCV, KFold  # 1. Trocado StratifiedKFold por KFold
+```
+**[REMOVED]**
+```
+(from line ~10)
+from sklearn.svm import SVC
+
+```
+**[ADDED]**
+```
+10    from sklearn.svm import SVR  # 2. Trocado SVC por SVR (Regressor)
+```
+**[REMOVED]**
+```
+(from line ~13)
+from sklearn.model_selection import StratifiedKFold
+
+```
+**[REMOVED]**
+```
+(from line ~16)
+    """Orquestra o treinamento e a busca de hiperparâmetros."""
+
+```
+**[ADDED]**
+```
+16        """Orquestra o treinamento e a busca de hiperparâmetros para modelos de regressão."""
+```
+**[REMOVED]**
+```
+(from line ~23)
+            metric_focus: Métrica alvo para otimização (ex: 'f1_score', 'recall').
+
+```
+**[ADDED]**
+```
+23                metric_focus: Métrica alvo para otimização (ex: 'r2', 'mae', 'mse').
+```
+**[REMOVED]**
+```
+(from line ~27)
+        self.refit_metric = METRIC_SCORING_MAP[metric_focus] # Metrica que o treinamento irá tentar achar o melhor modelo
+        self.scoring = SCORING_PIPELINE_MAP # Metricas usadas no GridSearch
+
+```
+**[ADDED]**
+```
+27            self.refit_metric = METRIC_SCORING_MAP[metric_focus] # Métrica principal (ex: 'r2' ou 'neg_mean_squared_error')
+28            self.scoring = SCORING_PIPELINE_MAP # Dicionário com métricas válidas de regressão
+```
+**[REMOVED]**
+```
+(from line ~41)
+            ("clf", SVC())
+
+```
+**[ADDED]**
+```
+41                ("clf", SVR())  # 2. Alterado de SVC() para SVR()
+```
+**[REMOVED]**
+```
+(from line ~50)
+            y_train: Labels do conjunto de treino.
+
+```
+**[ADDED]**
+```
+50                y_train: Labels/Valores contínuos do conjunto de treino.
+```
+**[REMOVED]**
+```
+(from line ~57)
+        cv = StratifiedKFold(
+            n_splits=5, # Testar mais números 4, 5, 6
+
+```
+**[ADDED]**
+```
+57            # 1. Utilização do KFold normal (adequado para variáveis contínuas)
+58            cv = KFold(
+59                n_splits=5,
+```
+
+---
+
+### 📄 /home/piva/Documentos/Programação/Python/IA-Trainer/src/models/model_config.py
+*Saved at: 29/08/2026, 11:39:06*
+
+**[REMOVED]**
+```
+(from line ~69)
+            #     "reg": [SGDRegressor(random_state=42)],
+            #     "reg__eta0": [0.1, 0.01, 0.001],
+            #     "reg__penalty": ["l2", "l1", "elasticnet"],
+
+```
+**[ADDED]**
+```
+69                #     "clf": [SGDRegressor(random_state=42)],
+70                #     "clf__eta0": [0.1, 0.01, 0.001],
+71                #     "clf__penalty": ["l2", "l1", "elasticnet"],
+```
+**[REMOVED]**
+```
+(from line ~78)
+            #      "reg": [MLPRegressor(random_state=31)],
+            #      "reg__activation": [
+
+```
+**[ADDED]**
+```
+78                #      "clf": [MLPRegressor(random_state=31)],
+79                #      "clf__activation": [
+```
+**[REMOVED]**
+```
+(from line ~83)
+            #      "reg__hidden_layer_sizes": [
+
+```
+**[ADDED]**
+```
+83                #      "clf__hidden_layer_sizes": [
+```
+**[REMOVED]**
+```
+(from line ~91)
+            #      "reg__alpha": [
+
+```
+**[ADDED]**
+```
+91                #      "clf__alpha": [
+```
+**[REMOVED]**
+```
+(from line ~98)
+            #      "reg__learning_rate_init": [
+
+```
+**[ADDED]**
+```
+98                #      "clf__learning_rate_init": [
+```
+**[REMOVED]**
+```
+(from line ~105)
+            #      "reg__early_stopping": [True],
+            #      "reg__validation_fraction": [
+
+```
+**[ADDED]**
+```
+105               #      "clf__early_stopping": [True],
+106               #      "clf__validation_fraction": [
+```
+**[REMOVED]**
+```
+(from line ~112)
+            #      "reg__max_iter": [
+
+```
+**[ADDED]**
+```
+112               #      "clf__max_iter": [
+```
+**[REMOVED]**
+```
+(from line ~117)
+            #      "reg__n_iter_no_change": [
+
+```
+**[ADDED]**
+```
+117               #      "clf__n_iter_no_change": [
+```
+**[REMOVED]**
+```
+(from line ~122)
+            #      "reg__tol": [
+
+```
+**[ADDED]**
+```
+122               #      "clf__tol": [
+```
+**[REMOVED]**
+```
+(from line ~128)
+            #    "reg": [SVR()],
+            #    "reg__C": [0.1, 1, 5, 10, 50, 100],
+            #    "reg__kernel": ["rbf", "poly"],
+            #    "reg__gamma": ["scale", "auto"],
+
+```
+**[ADDED]**
+```
+128               #    "clf": [SVR()],
+129               #    "clf__C": [0.1, 1, 5, 10, 50, 100],
+130               #    "clf__kernel": ["rbf", "poly"],
+131               #    "clf__gamma": ["scale", "auto"],
+```
+**[REMOVED]**
+```
+(from line ~136)
+            #    "reg": [LinearSVR(random_state=42)],
+            #    "reg__max_iter": [1000, 2000],
+            #    "reg__C": [0.1, 1, 5, 10, 50, 100],
+
+```
+**[ADDED]**
+```
+136               #    "clf": [LinearSVR(random_state=42)],
+137               #    "clf__max_iter": [1000, 2000],
+138               #    "clf__C": [0.1, 1, 5, 10, 50, 100],
+```
+**[REMOVED]**
+```
+(from line ~143)
+            #    "reg": [RandomForestRegressor(random_state=42)],
+            #    "reg__n_estimators": [100, 300, 500],
+            #    "reg__max_depth": [None, 10, 20],
+            #    "reg__criterion": ["squared_error", "absolute_error"],
+
+```
+**[ADDED]**
+```
+143               #    "clf": [RandomForestRegressor(random_state=42)],
+144               #    "clf__n_estimators": [100, 300, 500],
+145               #    "clf__max_depth": [None, 10, 20],
+146               #    "clf__criterion": ["squared_error", "absolute_error"],
+```
+**[REMOVED]**
+```
+(from line ~151)
+            #    "reg": [ExtraTreesRegressor(random_state=42)],
+            #    "reg__n_estimators": [100, 300],
+            #    "reg__max_depth": [None, 10, 20],
+            #    "reg__criterion": ["squared_error", "absolute_error"],
+
+```
+**[ADDED]**
+```
+151               #    "clf": [ExtraTreesRegressor(random_state=42)],
+152               #    "clf__n_estimators": [100, 300],
+153               #    "clf__max_depth": [None, 10, 20],
+154               #    "clf__criterion": ["squared_error", "absolute_error"],
+```
+**[REMOVED]**
+```
+(from line ~159)
+            #    "reg": [GradientBoostingRegressor(random_state=42)],
+            #    "reg__n_estimators": [100, 200],
+            #    "reg__learning_rate": [0.05, 0.1, 0.2],
+            #    "reg__max_depth": [3, 5],
+
+```
+**[ADDED]**
+```
+159               #    "clf": [GradientBoostingRegressor(random_state=42)],
+160               #    "clf__n_estimators": [100, 200],
+161               #    "clf__learning_rate": [0.05, 0.1, 0.2],
+162               #    "clf__max_depth": [3, 5],
+```
+**[REMOVED]**
+```
+(from line ~167)
+            #     "reg": [KNeighborsRegressor()],
+            #     "reg__n_neighbors": [3, 5, 7, 9, 11, 13, 15, 17, 19],
+            #     "reg__weights": ["uniform", "distance"],
+            #     "reg__metric": ["euclidean", "manhattan"],
+
+```
+**[ADDED]**
+```
+167               #     "clf": [KNeighborsRegressor()],
+168               #     "clf__n_neighbors": [3, 5, 7, 9, 11, 13, 15, 17, 19],
+169               #     "clf__weights": ["uniform", "distance"],
+170               #     "clf__metric": ["euclidean", "manhattan"],
+```
+**[REMOVED]**
+```
+(from line ~175)
+                "reg": [LinearRegression()],
+
+```
+**[ADDED]**
+```
+175                   "clf": [LinearRegression()],
+```
+**[REMOVED]**
+```
+(from line ~180)
+            #    "reg": [Ridge()],
+            #    "reg__alpha": [0.1, 1.0, 10.0, 100.0],
+
+```
+**[ADDED]**
+```
+180               #    "clf": [Ridge()],
+181               #    "clf__alpha": [0.1, 1.0, 10.0, 100.0],
+```
+**[REMOVED]**
+```
+(from line ~186)
+            #    "reg": [Lasso(random_state=42)],
+            #    "reg__alpha": [0.01, 0.1, 1.0, 10.0],
+
+```
+**[ADDED]**
+```
+186               #    "clf": [Lasso(random_state=42)],
+187               #    "clf__alpha": [0.01, 0.1, 1.0, 10.0],
+```
+
+---
+
+### 📄 /home/piva/Documentos/Programação/Python/IA-Trainer/src/models/data_handler.py
+*Saved at: 29/08/2026, 10:53:27*
+
+**[REMOVED]**
+```
+(from line ~41)
+            X, y, test_size=test_size, random_state=random_state, stratify=y
+
+```
+**[ADDED]**
+```
+41                X, y, test_size=test_size, random_state=random_state
+```
+
+---
+
+### 📄 /home/piva/Documentos/Programação/Python/IA-Trainer/src/models/data_handler.py
+*Saved at: 29/08/2026, 10:53:03*
+
+**[REMOVED]**
+```
+(from line ~70)
+        X, y = preparar_dados_para_treino(self.data_path, self.results_path)
+
+```
+**[ADDED]**
+```
+70            X, y = preparar_dados_para_treino(self.data_path)
+```
+
+---
+
+### 📄 /home/piva/Documentos/Programação/Python/IA-Trainer/src/models/data_handler.py
+*Saved at: 29/08/2026, 10:52:24*
+
+**[REMOVED]**
+```
+(from line ~72)
+            X, y, test_size=test_size, random_state=random_state, stratify=y
+
+```
+**[ADDED]**
+```
+72                X, y, test_size=test_size, random_state=random_state
+```
+
+---
+
+### 📄 /home/piva/Documentos/Programação/Python/IA-Trainer/src/models/data_handler.py
+*Saved at: 29/08/2026, 10:50:51*
+
+**[REMOVED]**
+```
+(from line ~41)
+            X, y, test_size=test_size, random_state=random_state
+
+```
+**[ADDED]**
+```
+41                X, y, test_size=test_size, random_state=random_state, stratify=y
+```
+
+---
+
+### 📄 /home/piva/Documentos/Programação/Python/IA-Trainer/src/models/data_handler.py
+*Saved at: 29/08/2026, 10:50:20*
+
+**[REMOVED]**
+```
+(from line ~41)
+            X, y, test_size=test_size, random_state=random_state, stratify=y
+
+```
+**[ADDED]**
+```
+41                X, y, test_size=test_size, random_state=random_state
+```
+
+---
+
+### 📄 /home/piva/Documentos/Programação/Python/IA-Trainer/src/controllers/training_controller.py
+*Saved at: 29/08/2026, 10:41:17*
+
+**[REMOVED]**
+```
+(from line ~64)
+            X, y = preparar_dados_para_treino(self.data_handler.data_path, self.data_handler.results_path)
+
+```
+**[ADDED]**
+```
+64                X, y = preparar_dados_para_treino(self.data_handler.data_path)
+```
+
+---
+
+### 📄 /home/piva/Documentos/Programação/Python/IA-Trainer/src/models/model_config.py
+*Saved at: 29/08/2026, 10:40:31*
+
+**[ADDED]**
+```
+174               {
+175                   "reg": [LinearRegression()],
+176                   "scaler": scalers,
+177                   "reducao": reducoes,
+178               },
+```
+**[REMOVED]**
+```
+(from line ~180)
+            #    "reg": [LinearRegression()],
+            #    "scaler": scalers,
+            #    "reducao": reducoes,
+            #},
+            #{
+
+```
+
+---
+
+### 📄 /home/piva/Documentos/Programação/Python/IA-Trainer/src/models/model_config.py
+*Saved at: 29/08/2026, 10:35:09*
+
+**[REMOVED]**
+```
+(from line ~75)
+             {
+                 "scaler": scalers,
+                 "reducao": reducoes,
+                 "reg": [MLPRegressor(random_state=31)],
+                 "reg__activation": [
+                     "tanh",
+                     "relu"
+                 ],
+                 "reg__hidden_layer_sizes": [
+                     (24,),
+                     (32,),
+                     #(40,),
+                     #(48,),
+                     #(24, 12),
+                     #(32, 16)
+                 ],
+                 "reg__alpha": [
+                     0.00005,
+                     0.0001,
+                     #0.0002,
+                     #0.0005,
+                     #0.01
+                 ],
+                 "reg__learning_rate_init": [
+                     #0.005,
+                     #0.0075,
+                     0.01,
+                     0.015,
+                     #0.1
+                 ],
+                 "reg__early_stopping": [True],
+                 "reg__validation_fraction": [
+                     0.08, 
+                     0.10, 
+                     #0.12, 
+                     #0.15
+                 ],
+                 "reg__max_iter": [
+                     500,
+                     1000,
+                     #1500
+                 ],
+                 "reg__n_iter_no_change": [
+                     10, 
+                     15, 
+                     #20
+                 ],
+                 "reg__tol": [
+                     0.0001, 
+                     0.00005
+                 ]
+             },
+
+```
+**[ADDED]**
+```
+75                #  {
+76                #      "scaler": scalers,
+77                #      "reducao": reducoes,
+78                #      "reg": [MLPRegressor(random_state=31)],
+79                #      "reg__activation": [
+80                #          "tanh",
+81                #          "relu"
+82                #      ],
+83                #      "reg__hidden_layer_sizes": [
+84                #          (24,),
+85                #          (32,),
+86                #          #(40,),
+87                #          #(48,),
+88                #          #(24, 12),
+89                #          #(32, 16)
+90                #      ],
+91                #      "reg__alpha": [
+92                #          0.00005,
+93                #          0.0001,
+94                #          #0.0002,
+95                #          #0.0005,
+96                #          #0.01
+97                #      ],
+98                #      "reg__learning_rate_init": [
+99                #          #0.005,
+100               #          #0.0075,
+101               #          0.01,
+102               #          0.015,
+103               #          #0.1
+104               #      ],
+105               #      "reg__early_stopping": [True],
+106               #      "reg__validation_fraction": [
+107               #          0.08, 
+108               #          0.10, 
+109               #          #0.12, 
+110               #          #0.15
+111               #      ],
+112               #      "reg__max_iter": [
+113               #          500,
+114               #          1000,
+115               #          #1500
+116               #      ],
+117               #      "reg__n_iter_no_change": [
+118               #          10, 
+119               #          15, 
+120               #          #20
+121               #      ],
+122               #      "reg__tol": [
+123               #          0.0001, 
+124               #          0.00005
+125               #      ]
+126               #  },
+```
+
+---
+
+### 📄 /home/piva/Documentos/Programação/Python/IA-Trainer/src/models/model_config.py
+*Saved at: 29/08/2026, 10:34:51*
+
+**[REMOVED]**
+```
+(from line ~51)
+            #PCA(n_components=0.95, random_state=31),
+
+```
+**[ADDED]**
+```
+51                PCA(n_components=0.95, random_state=31),
+```
+**[REMOVED]**
+```
+(from line ~53)
+            #SelectKBest(score_func=f_regression, k="all")
+
+```
+**[ADDED]**
+```
+53                SelectKBest(score_func=f_regression, k="all")
+```
+
+---
+
+### 📄 /home/piva/Documentos/Programação/Python/IA-Trainer/src/models/model_config.py
+*Saved at: 29/08/2026, 10:34:35*
+
+**[REMOVED]**
+```
+(from line ~31)
+            #MinMaxScaler(),
+            #MaxAbsScaler(),
+            #QuantileTransformer(output_distribution="uniform", random_state=42),
+
+```
+**[ADDED]**
+```
+31                MinMaxScaler(),
+32                MaxAbsScaler(),
+33                QuantileTransformer(output_distribution="uniform", random_state=42),
+```
+**[REMOVED]**
+```
+(from line ~35)
+            #PowerTransformer(method="yeo-johnson"),
+            #Normalizer(norm="l2"),
+
+```
+**[ADDED]**
+```
+35                PowerTransformer(method="yeo-johnson"),
+36                Normalizer(norm="l2"),
+```
+
+---
+
+### 📄 /home/piva/Documentos/Programação/Python/IA-Trainer/src/models/data_handler.py
+*Saved at: 29/08/2026, 10:33:14*
+
+**[REMOVED]**
+```
+(from line ~26)
+        self.results_path = results_path
+
+```
+
+---
+
+### 📄 /home/piva/Documentos/Programação/Python/IA-Trainer/src/models/data_handler.py
+*Saved at: 29/08/2026, 10:33:12*
+
+**[REMOVED]**
+```
+(from line ~17)
+    def __init__(self, data_path: str, results_path: str) -> None:
+
+```
+**[ADDED]**
+```
+17        def __init__(self, data_path: str) -> None:
+```
+
+---
+
+### 📄 /home/piva/Documentos/Programação/Python/IA-Trainer/src/controllers/training_controller.py
+*Saved at: 29/08/2026, 10:33:04*
+
+**[REMOVED]**
+```
+(from line ~40)
+        self.data_handler = DataHandler(data_path, results_path)
+
+```
+**[ADDED]**
+```
+40            self.data_handler = DataHandler(data_path)
+```
+
+---
+
+### 📄 /home/piva/Documentos/Programação/Python/IA-Trainer/src/controllers/training_controller.py
+*Saved at: 29/08/2026, 10:33:00*
+
+**[REMOVED]**
+```
+(from line ~26)
+        results_path: str,
+
+```
+
+---
+
+### 📄 /home/piva/Documentos/Programação/Python/IA-Trainer/src/main.py
+*Saved at: 29/08/2026, 10:32:54*
+
+**[REMOVED]**
+```
+(from line ~29)
+        results_path=RESULTS_PATH,
+
+```
+
+---
+
+### 📄 /home/piva/Documentos/Programação/Python/IA-Trainer/src/main.py
+*Saved at: 29/08/2026, 10:32:51*
+
+**[REMOVED]**
+```
+(from line ~21)
+    DATA_PATH = "./planilhas/Machine learning ganhos de forca (1).xlsx"
+
+```
+**[ADDED]**
+```
+21        DATA_PATH = "./planilhas/Machine_learning_ganhosde_forca.xlsx"
+```
+
+---
+
+### 📄 /home/piva/Documentos/Programação/Python/IA-Trainer/src/main.py
+*Saved at: 29/08/2026, 10:32:43*
+
+**[REMOVED]**
+```
+(from line ~21)
+    DATA_PATH = "./planilhas/planilhas_dados/dados_pe_frontal_esquerdo_150_2_col.xlsx"
+
+```
+**[ADDED]**
+```
+21        DATA_PATH = "./planilhas/Machine learning ganhos de forca (1).xlsx"
+```
+
+---
+
+### 📄 /home/piva/Documentos/Programação/Python/IA-Trainer/src/main.py
+*Saved at: 29/08/2026, 10:31:58*
+
+**[REMOVED]**
+```
+(from line ~22)
+    RESULTS_PATH = "./planilhas/planilhas_resultados/resultados_pe_frontal_esquerdo_150.xlsx"
+
+```
+
+---
+
+### 📄 /home/piva/Documentos/Programação/Python/IA-Trainer/src/models/model_config.py
 *Saved at: 29/08/2026, 10:20:29*
 
 **[REMOVED]**

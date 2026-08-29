@@ -1,32 +1,20 @@
-"""
-Configurações globais, mapeamentos de métricas e constantes do projeto.
-"""
-
-# Mapeamento entre nomes amigáveis e strings internas do scikit-learn
-METRIC_SCORING_MAP = {
-    "f1_score": "f1",
-    "accuracy": "accuracy",
-    "precision": "precision",
-    "recall": "recall",
-    "roc_auc": "roc_auc",
-}
-
 SCORING_PIPELINE_MAP = {
-    "f1": "f1",
-    "accuracy": "accuracy",
-    "precision": "precision",
-    "recall": "recall",
-    "roc_auc": "roc_auc",
+    'r2': 'r2',
+    'mae': 'neg_mean_absolute_error',
+    'mse': 'neg_mean_squared_error',
+    'rmse': 'neg_root_mean_squared_error'
 }
 
-# Nomes das colunas de desvio padrão nos resultados do GridSearchCV
+METRIC_SCORING_MAP = {
+    'r2': 'r2',
+    'mae': 'mae',
+    'mse': 'mse',
+    'rmse': 'rmse'
+}
+
 STD_MAP = {
-    "f1_score": "std_test_f1",
-    "accuracy": "std_test_accuracy",
-    "precision": "std_test_precision",
-    "recall": "std_test_recall",
-    "roc_auc": "std_test_roc_auc",
+    'r2': 'std_test_r2',
+    'mae': 'std_test_mae',
+    'mse': 'std_test_mse',
+    'rmse': 'std_test_rmse'
 }
-
-# Nomes das classes no relatório de classificação
-CLASS_NAMES = ["CERTO (0)", "ERRADO (1)"]

@@ -1,15 +1,15 @@
 """
-Processamento de métricas e relatórios.
+Processamento de métricas e relatórios para Regressão.
 """
 import re
 from typing import Dict, List, Tuple
 import numpy as np
-from sklearn.metrics import classification_report, roc_auc_score
-from config.settings import STD_MAP, CLASS_NAMES
+from sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score
+from config.settings import STD_MAP
 
 
 class MetricsHandler:
-    """Calcula e agrega métricas de desempenho do modelo."""
+    """Calcula e agrega métricas de desempenho para modelos de regressão."""
 
     def __init__(self, metric_focus: str) -> None:
         self.metric_focus = metric_focus
@@ -17,142 +17,106 @@ class MetricsHandler:
 
     def evaluate(self, grid: any, X_test: np.ndarray, y_test: np.ndarray) -> Tuple[Dict[str, float], str]:
         """
-        Avalia o melhor modelo encontrado no GridSearch.
+        Avalia o melhor modelo encontrado no GridSearch usando métricas de regressão.
 
         Args:
             grid: GridSearchCV treinado.
             X_test: Features de teste.
-            y_test: Labels de teste.
+            y_test: Target de teste.
 
         Returns:
-            Tupla com (dicionário de métricas CV, string do classification_report).
+            Tupla com (dicionário de métricas CV, string do relatório de regressão).
         """
         best_model = grid.best_estimator_
         y_pred = best_model.predict(X_test)
-        report = classification_report( 
-            y_test, y_pred, target_names=CLASS_NAMES, zero_division=0
+
+        # Cálculo das métricas diretas no conjunto de teste
+        mae = mean_absolute_error(y_test, y_pred)
+        mse = mean_squared_error(y_test, y_pred)
+        rmse = np.sqrt(mse)
+        r2 = r2_score(y_test, y_pred)
+
+        report = (
+            "=== Relatório de Avaliação no Teste ===\n"
+            f"R2 Score : {r2:.4f}\n"
+            f"MAE      : {mae:.4f}\n"
+            f"MSE      : {mse:.4f}\n"
+            f"RMSE     : {rmse:.4f}\n"
         )
-        report += f"ROC AUC: {roc_auc_score(y_test, y_pred):.2f}\n"
 
         idx = grid.best_index_
+        
+        # Leitura das métricas médias da Validação Cruzada do GridSearch
+        # Nota: O scikit-learn usa valores negativos para MAE e MSE/RMSE no scoring (neg_*)
+        # Usamos abs() para salvar com sinal positivo nos relatórios.
         cv_metrics = {
-            "accuracy": grid.cv_results_["mean_test_accuracy"][idx] * 100,
-            "f1_score": grid.cv_results_["mean_test_f1"][idx] * 100,
-            "precision": grid.cv_results_["mean_test_precision"][idx] * 100,
-            "recall": grid.cv_results_["mean_test_recall"][idx] * 100,
-            "roc_auc": grid.cv_results_["mean_test_roc_auc"][idx] * 100,
-            "std": grid.cv_results_[self.std_key][idx] * 100,
+            "r2": grid.cv_results_["mean_test_r2"][idx],
+            "mae": abs(grid.cv_results_["mean_test_mae"][idx]),
+            "mse": abs(grid.cv_results_["mean_test_mse"][idx]),
+            "rmse": abs(grid.cv_results_["mean_test_rmse"][idx]),
+            "std": grid.cv_results_[self.std_key][idx],
         }
         return cv_metrics, report
 
     @staticmethod
     def extract_last_numbers(line: str, count: int) -> List[float]:
         """
-        Extrai os últimos `count` números de uma string.
+        Extrai os últimos `count` números de uma string (incluindo suporte a números negativos e decimais).
 
         Args:
-            line: Linha do relatório de classificação.
+            line: Linha do relatório.
             count: Quantidade de números a retornar.
 
         Returns:
             Lista de floats encontrados.
         """
-
-        #\d+: Procura um ou mais dígitos (ex: 1, 50, 123).
-        #\.: Procura um ponto literal (o separador decimal).
-        #\d+\.\d+: Procura números com casas decimais (ex: 0.85, 10.5).
-        #|: Significa "OU".
-        #\d+: Procura números inteiros (ex: 50, 100).
-        
-        nums = [float(x) if "." in x else int(x) for x in re.findall(r"\d+\.\d+|\d+", line)]
-
-        # Retornmas os ultimos count numeros da linha se tivermos mais de count numeros
+        nums = [float(x) for x in re.findall(r"[-+]?\d*\.\d+|\d+", line)]
         return nums[-count:] if len(nums) >= count else []
 
     def compute_average_report(self, reports: List[str]) -> str:
         """
-        Calcula a média ponderada das métricas de múltiplos relatórios.
+        Calcula a média das métricas de regressão a partir de múltiplos relatórios.
 
         Args:
-            reports: Lista de strings `classification_report`.
+            reports: Lista de strings de relatórios gerados por `evaluate`.
 
         Returns:
-            String formatada com a média das métricas.
+            String formatada com a média das métricas entre as iterações.
         """
         if not reports:
             return "Nenhum relatório encontrado para calcular a média."
 
-        # Criando um dicíonario que guarda o precision, recall, f1 e support de cada classe
         accumulator = {
-            cls: {"p": [], "r": [], "f": [], "s": []} for cls in CLASS_NAMES
+            "r2": [],
+            "mae": [],
+            "mse": [],
+            "rmse": []
         }
 
-        # Adicionando os valores de accuracy, macro avg e weighted avg para cada métrica
-        accumulator.update({
-            "accuracy": {"acc": [], "s": []},
-            "macro avg": {"p": [], "r": [], "f": [], "s": []},
-            "weighted avg": {"p": [], "r": [], "f": [], "s": []},
-            "roc_auc": []
-        })
-
-        # Pegando cada report na lista de todos os reports
         for report in reports:
-            for line in report.splitlines(): # Esse splitlines transforma cada quebra de linha em uma lista de strings
-                for cls in CLASS_NAMES:
-                    if cls in line: # Se a classe estiver na linha
-                        # Extrai os últimos 4 números da linha (Precision, Recall, F1, Support).
-                        nums = self.extract_last_numbers(line, 4)
-                        if len(nums) == 4:
-                            # zip associa as chaves ['p','r','f','s'] aos valores encontrados [num1, num2, num3, num4]
-                            for k, v in zip(["p", "r", "f", "s"], nums):
-                                accumulator[cls][k].append(v)
-
-                # Verificando se estamos na linha de accuracy
-                if "accuracy" in line:
-                    nums = self.extract_last_numbers(line, 2)
-                    if len(nums) == 2:
-                        accumulator["accuracy"]["acc"].append(nums[0])
-                        accumulator["accuracy"]["s"].append(nums[1])
-
-                # Percorrendo as linhas da média
-                for avg in ["macro avg", "weighted avg"]:
-                    if avg in line:
-                        nums = self.extract_last_numbers(line, 4)
-                        if len(nums) == 4:
-                            for k, v in zip(["p", "r", "f", "s"], nums):
-                                accumulator[avg][k].append(v)
-            
-                if "ROC AUC:" in line:
+            for line in report.splitlines():
+                if "R2 Score" in line:
                     nums = self.extract_last_numbers(line, 1)
-                    if len(nums) == 1:
-                        accumulator["roc_auc"].append(nums[0])
+                    if nums: accumulator["r2"].append(nums[0])
+                elif "MAE" in line:
+                    nums = self.extract_last_numbers(line, 1)
+                    if nums: accumulator["mae"].append(nums[0])
+                elif "MSE" in line:
+                    nums = self.extract_last_numbers(line, 1)
+                    if nums: accumulator["mse"].append(nums[0])
+                elif "RMSE" in line:
+                    nums = self.extract_last_numbers(line, 1)
+                    if nums: accumulator["rmse"].append(nums[0])
 
         def safe_mean(lst: list) -> float:
             return sum(lst) / len(lst) if lst else 0.0
 
-        output = [f"{'':>12} {'precision':>9} {'recall':>9} {'f1-score':>9} {'support':>9}"]
-        for cls in CLASS_NAMES:
-            output.append(
-                f"{cls:>12} {safe_mean(accumulator[cls]['p']):>9.2f} "
-                f"{safe_mean(accumulator[cls]['r']):>9.2f} "
-                f"{safe_mean(accumulator[cls]['f']):>9.2f} "
-                f"{round(safe_mean(accumulator[cls]['s'])):>9}"
-            )
-
-        output.append("")
-        output.append(
-            f"{'accuracy':>12} {safe_mean(accumulator['accuracy']['acc']):>30.2f} "
-            f"{round(safe_mean(accumulator['accuracy']['s'])):>9}"
-        )
-
-        for avg in ["macro avg", "weighted avg"]:
-            output.append(
-                f"{avg:>12} {safe_mean(accumulator[avg]['p']):>9.2f} "
-                f"{safe_mean(accumulator[avg]['r']):>9.2f} "
-                f"{safe_mean(accumulator[avg]['f']):>9.2f} "
-                f"{round(safe_mean(accumulator[avg]['s'])):>9}"
-            )
-        if accumulator["roc_auc"]:
-            output.append(f"ROC AUC: {safe_mean(accumulator['roc_auc']):.2f}")
+        output = [
+            "=== Média Métrica Final (Múltiplas Rodadas) ===",
+            f"R2 Score Médio : {safe_mean(accumulator['r2']):.4f}",
+            f"MAE Médio      : {safe_mean(accumulator['mae']):.4f}",
+            f"MSE Médio      : {safe_mean(accumulator['mse']):.4f}",
+            f"RMSE Médio     : {safe_mean(accumulator['rmse']):.4f}",
+        ]
 
         return "\n".join(output)
