@@ -1,26 +1,25 @@
 import pandas as pd
 
-def preparar_dados_para_treino(caminho_estatistico, caminho_resultados):
-    """Função que pega os valores da planilha de estatístico e de resultados e retorna os dados para o treinameto"""
+import pandas as pd
+
+def preparar_dados_para_treino(caminho_estatistico):
+    """Função que pega todas as colunas exceto a última para o X e a última para o y"""
     
-    # Leitura dos dados estatísticos
+    # Leitura dos dados
     df_estatistico = pd.read_excel(caminho_estatistico, engine='openpyxl')
     
-    # Extrai todas as colunas a partir da terceira coluna
-    X = df_estatistico.iloc[:, 2:]
+    # X pega todas as colunas EXCETO a última
+    X = df_estatistico.iloc[:, :-1]
     
-    # Leitura dos dados de resultados
-    df_resultados = pd.read_excel(caminho_resultados, engine='openpyxl')
-    
-    # Extrai apenas a coluna 'Resultado' como um vetor (0 e 1)
-    y = df_resultados['Resultado'].values
+    # y pega APENAS a última coluna
+    y = df_estatistico.iloc[:, -1].values
 
     return X, y
 
 def pegar_nomes_das_features(caminho_estatistico):
     """Função que retorna os nomes das features a partir da planilha de estatístico"""
     df_estatistico = pd.read_excel(caminho_estatistico, engine='openpyxl')
-    feature_names = df_estatistico.columns[2:].tolist()  # Pegando os nomes das colunas a partir da terceira coluna
+    feature_names = df_estatistico.columns[:-1].tolist()  # Pegando os nomes das colunas exepto a ultima
 
     return feature_names
 

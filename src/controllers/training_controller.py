@@ -52,7 +52,7 @@ class TrainingController:
         start_time = time.time()
         random_states = [random.randint(1, 1000) for _ in range(self.iterations)]
         #removed_features_mlp = ["big_toe_x_iqr", "heel_y_iqr"]
-        removed_features_mlp = ["ankle_y_std", "ankle_x_iqr", "heel_x_std", "big_toe_y_std", "heel_x_iqr", "big_toe_x_iqr", "heel_y_iqr"]
+        #removed_features_mlp = ["ankle_y_std", "ankle_x_iqr", "heel_x_std", "big_toe_y_std", "heel_x_iqr", "big_toe_x_iqr", "heel_y_iqr"]
         #removed_features_knn = ["heel_x_iqr", "heel_y_std"]
         #random_states = [777]    # Random State para o melhor MLP 
         #random_states = [647] # Random State para o melhor KNN
@@ -63,7 +63,7 @@ class TrainingController:
 
         for i, rs in enumerate(random_states):
             X, y = preparar_dados_para_treino(self.data_handler.data_path, self.data_handler.results_path)
-            X = self.data_handler.remove_feature(X, removed_features_mlp)
+            #X = self.data_handler.remove_feature(X, removed_features_mlp)
             X_train, X_test, y_train, y_test = self.data_handler.load_and_split(
                 random_state=rs, X=X, y=y
             )

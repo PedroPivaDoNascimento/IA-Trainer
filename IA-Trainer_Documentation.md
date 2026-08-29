@@ -1,3 +1,412 @@
+### 📄 /home/piva/Documentos/Programação/Python/IA-Trainer/src/models/model_config.py
+*Saved at: 29/08/2026, 10:20:29*
+
+**[REMOVED]**
+```
+(from line ~2)
+Configuração de modelos, escaladores e grade de parâmetros.
+
+```
+**[ADDED]**
+```
+2     Configuração de modelos de regressão, escaladores e grade de parâmetros.
+```
+**[REMOVED]**
+```
+(from line ~9)
+from sklearn.svm import SVC, LinearSVC
+
+```
+**[ADDED]**
+```
+9     from sklearn.svm import SVR, LinearSVR
+```
+**[REMOVED]**
+```
+(from line ~11)
+    RandomForestClassifier, GradientBoostingClassifier, ExtraTreesClassifier
+
+```
+**[ADDED]**
+```
+11        RandomForestRegressor, GradientBoostingRegressor, ExtraTreesRegressor
+```
+**[REMOVED]**
+```
+(from line ~13)
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.linear_model import LogisticRegression, Perceptron, RidgeClassifier
+from sklearn.neural_network import MLPClassifier
+from sklearn.feature_selection import SelectKBest, f_classif
+
+```
+**[ADDED]**
+```
+13    from sklearn.neighbors import KNeighborsRegressor
+14    from sklearn.linear_model import (
+15        LinearRegression, Ridge, Lasso, ElasticNet, SGDRegressor
+16    )
+17    from sklearn.neural_network import MLPRegressor
+18    from sklearn.feature_selection import SelectKBest, f_regression
+```
+**[REMOVED]**
+```
+(from line ~23)
+    """Gerencia a configuração dos classificadores e pré-processadores."""
+
+```
+**[ADDED]**
+```
+23        """Gerencia a configuração dos regressores e pré-processadores."""
+```
+**[REMOVED]**
+```
+(from line ~53)
+            #SelectKBest(score_func=f_classif, k="all")
+
+```
+**[ADDED]**
+```
+53                #SelectKBest(score_func=f_regression, k="all")
+```
+**[REMOVED]**
+```
+(from line ~69)
+            #     "clf": [Perceptron(random_state=42, class_weight="balanced")],
+            #     "clf__eta0": [0.1, 0.01, 1.0],
+            #     "clf__penalty": ["l2", "l1", "elasticnet"],
+
+```
+**[ADDED]**
+```
+69                #     "reg": [SGDRegressor(random_state=42)],
+70                #     "reg__eta0": [0.1, 0.01, 0.001],
+71                #     "reg__penalty": ["l2", "l1", "elasticnet"],
+```
+**[REMOVED]**
+```
+(from line ~78)
+                 "clf": [MLPClassifier(random_state=31)],
+                 "clf__activation": [
+
+```
+**[ADDED]**
+```
+78                     "reg": [MLPRegressor(random_state=31)],
+79                     "reg__activation": [
+```
+**[REMOVED]**
+```
+(from line ~83)
+                 "clf__hidden_layer_sizes": [
+
+```
+**[ADDED]**
+```
+83                     "reg__hidden_layer_sizes": [
+```
+**[REMOVED]**
+```
+(from line ~91)
+                 "clf__alpha": [
+
+```
+**[ADDED]**
+```
+91                     "reg__alpha": [
+```
+**[REMOVED]**
+```
+(from line ~98)
+                 "clf__learning_rate_init": [
+
+```
+**[ADDED]**
+```
+98                     "reg__learning_rate_init": [
+```
+**[REMOVED]**
+```
+(from line ~105)
+                 "clf__early_stopping": [True],
+                 "clf__validation_fraction": [
+
+```
+**[ADDED]**
+```
+105                    "reg__early_stopping": [True],
+106                    "reg__validation_fraction": [
+```
+**[REMOVED]**
+```
+(from line ~112)
+                 "clf__max_iter": [
+
+```
+**[ADDED]**
+```
+112                    "reg__max_iter": [
+```
+**[REMOVED]**
+```
+(from line ~117)
+                 "clf__n_iter_no_change": [
+
+```
+**[ADDED]**
+```
+117                    "reg__n_iter_no_change": [
+```
+**[REMOVED]**
+```
+(from line ~119)
+                    15, 
+
+```
+**[ADDED]**
+```
+119                        15, 
+```
+**[REMOVED]**
+```
+(from line ~122)
+                 "clf__tol": [
+
+```
+**[ADDED]**
+```
+122                    "reg__tol": [
+```
+**[REMOVED]**
+```
+(from line ~128)
+            #    "clf": [SVC(random_state=42, class_weight="balanced")],
+            #    "clf__C": [0.1, 1, 5, 10, 50, 100],
+            #    "clf__kernel": ["rbf", "poly"],
+            #    "clf__gamma": ["scale", "auto"],
+
+```
+**[ADDED]**
+```
+128               #    "reg": [SVR()],
+129               #    "reg__C": [0.1, 1, 5, 10, 50, 100],
+130               #    "reg__kernel": ["rbf", "poly"],
+131               #    "reg__gamma": ["scale", "auto"],
+```
+**[REMOVED]**
+```
+(from line ~136)
+            #    "clf": [LinearSVC(random_state=42, class_weight="balanced")],
+            #    "clf__max_iter": [1000, 2000],
+            #    "clf__C": [0.1, 1, 5, 10, 50, 100],
+            #    "clf__dual": [False],
+
+```
+**[ADDED]**
+```
+136               #    "reg": [LinearSVR(random_state=42)],
+137               #    "reg__max_iter": [1000, 2000],
+138               #    "reg__C": [0.1, 1, 5, 10, 50, 100],
+```
+**[REMOVED]**
+```
+(from line ~143)
+            #    "clf": [RandomForestClassifier(random_state=42, class_weight="balanced")],
+            #    "clf__n_estimators": [100, 300, 500],
+            #    "clf__max_depth": [None, 10, 20],
+            #    "clf__criterion": ["gini", "entropy"],
+
+```
+**[ADDED]**
+```
+143               #    "reg": [RandomForestRegressor(random_state=42)],
+144               #    "reg__n_estimators": [100, 300, 500],
+145               #    "reg__max_depth": [None, 10, 20],
+146               #    "reg__criterion": ["squared_error", "absolute_error"],
+```
+**[REMOVED]**
+```
+(from line ~151)
+            #    "clf": [ExtraTreesClassifier(random_state=42, class_weight="balanced")],
+            #    "clf__n_estimators": [100, 300],
+            #    "clf__max_depth": [None, 10, 20],
+            #    "clf__criterion": ["gini", "entropy"],
+
+```
+**[ADDED]**
+```
+151               #    "reg": [ExtraTreesRegressor(random_state=42)],
+152               #    "reg__n_estimators": [100, 300],
+153               #    "reg__max_depth": [None, 10, 20],
+154               #    "reg__criterion": ["squared_error", "absolute_error"],
+```
+**[REMOVED]**
+```
+(from line ~159)
+            #    "clf": [GradientBoostingClassifier(random_state=42)],
+            #    "clf__n_estimators": [100, 200],
+            #    "clf__learning_rate": [0.05, 0.1, 0.2],
+            #    "clf__max_depth": [3, 5],
+
+```
+**[ADDED]**
+```
+159               #    "reg": [GradientBoostingRegressor(random_state=42)],
+160               #    "reg__n_estimators": [100, 200],
+161               #    "reg__learning_rate": [0.05, 0.1, 0.2],
+162               #    "reg__max_depth": [3, 5],
+```
+**[REMOVED]**
+```
+(from line ~167)
+            #     "clf": [KNeighborsClassifier()],
+            #     "clf__n_neighbors": [3, 5, 7, 9, 11, 13, 15, 17, 19],
+            #     "clf__weights": ["uniform", "distance"],
+            #     "clf__metric": ["euclidean", "manhattan"],
+
+```
+**[ADDED]**
+```
+167               #     "reg": [KNeighborsRegressor()],
+168               #     "reg__n_neighbors": [3, 5, 7, 9, 11, 13, 15, 17, 19],
+169               #     "reg__weights": ["uniform", "distance"],
+170               #     "reg__metric": ["euclidean", "manhattan"],
+```
+**[REMOVED]**
+```
+(from line ~175)
+            #    "clf": [LogisticRegression(random_state=42, class_weight="balanced", max_iter=1000)],
+            #    "clf__C": [0.01, 0.1, 1, 5, 10, 50, 100],
+            #    "clf__solver": ["liblinear", "lbfgs"],
+
+```
+**[ADDED]**
+```
+175               #    "reg": [LinearRegression()],
+```
+**[REMOVED]**
+```
+(from line ~180)
+            #    "clf": [RidgeClassifier(class_weight="balanced")],
+            #    "clf__alpha": [0.1, 1.0, 10.0, 100.0],
+
+```
+**[ADDED]**
+```
+180               #    "reg": [Ridge()],
+181               #    "reg__alpha": [0.1, 1.0, 10.0, 100.0],
+```
+**[ADDED]**
+```
+185               #{
+186               #    "reg": [Lasso(random_state=42)],
+187               #    "reg__alpha": [0.01, 0.1, 1.0, 10.0],
+188               #    "scaler": scalers,
+189               #    "reducao": ["passthrough"],
+190               #},
+```
+
+---
+
+### 📄 /home/piva/Documentos/Programação/Python/IA-Trainer/src/controllers/training_controller.py
+*Saved at: 29/08/2026, 10:08:01*
+
+**[REMOVED]**
+```
+(from line ~55)
+        removed_features_mlp = ["ankle_y_std", "ankle_x_iqr", "heel_x_std", "big_toe_y_std", "heel_x_iqr", "big_toe_x_iqr", "heel_y_iqr"]
+
+```
+**[ADDED]**
+```
+55            #removed_features_mlp = ["ankle_y_std", "ankle_x_iqr", "heel_x_std", "big_toe_y_std", "heel_x_iqr", "big_toe_x_iqr", "heel_y_iqr"]
+```
+**[REMOVED]**
+```
+(from line ~66)
+            X = self.data_handler.remove_feature(X, removed_features_mlp)
+
+```
+**[ADDED]**
+```
+66                #X = self.data_handler.remove_feature(X, removed_features_mlp)
+```
+
+---
+
+### 📄 /home/piva/Documentos/Programação/Python/IA-Trainer/src/models/excel_geter.py
+*Saved at: 29/08/2026, 09:55:56*
+
+**[REMOVED]**
+```
+(from line ~22)
+    feature_names = df_estatistico.columns[2:].tolist()  # Pegando os nomes das colunas a partir da terceira coluna
+
+```
+**[ADDED]**
+```
+22        feature_names = df_estatistico.columns[:-1].tolist()  # Pegando os nomes das colunas exepto a ultima
+```
+
+---
+
+### 📄 /home/piva/Documentos/Programação/Python/IA-Trainer/src/models/excel_geter.py
+*Saved at: 29/08/2026, 09:54:39*
+
+**[REMOVED]**
+```
+(from line ~3)
+def preparar_dados_para_treino(caminho_estatistico, caminho_resultados):
+    """Função que pega os valores da planilha de estatístico e de resultados e retorna os dados para o treinameto"""
+
+```
+**[ADDED]**
+```
+3     import pandas as pd
+4     
+5     def preparar_dados_para_treino(caminho_estatistico):
+6         """Função que pega todas as colunas exceto a última para o X e a última para o y"""
+```
+**[REMOVED]**
+```
+(from line ~8)
+    # Leitura dos dados estatísticos
+
+```
+**[ADDED]**
+```
+8         # Leitura dos dados
+```
+**[REMOVED]**
+```
+(from line ~11)
+    # Extrai todas as colunas a partir da terceira coluna
+    X = df_estatistico.iloc[:, 2:]
+
+```
+**[ADDED]**
+```
+11        # X pega todas as colunas EXCETO a última
+12        X = df_estatistico.iloc[:, :-1]
+```
+**[REMOVED]**
+```
+(from line ~14)
+    # Leitura dos dados de resultados
+    df_resultados = pd.read_excel(caminho_resultados, engine='openpyxl')
+    
+    # Extrai apenas a coluna 'Resultado' como um vetor (0 e 1)
+    y = df_resultados['Resultado'].values
+
+```
+**[ADDED]**
+```
+14        # y pega APENAS a última coluna
+15        y = df_estatistico.iloc[:, -1].values
+```
+
+---
+
 ### 📄 /home/piva/Documentos/Programação/Python/IA-Trainer/src/models/excel_geter.py
 *Saved at: 18/08/2026, 18:53:05*
 
