@@ -18,7 +18,7 @@ if __name__ == "__main__":
     dict_params = None
 
     # Definição de caminhos para planilhas
-    DATA_PATH = "./planilhas/Machine_learning_ganhosde_forca.xlsx"
+    DATA_PATH = "./planilhas/Machine learning ganhos de forca (FIM POS).xlsx"
 
     # Métrica alvo para Regressão: 'r2', 'mae', 'mse' ou 'rmse'
     METRIC_FOCO = "rmse"
@@ -27,7 +27,7 @@ if __name__ == "__main__":
     controller = TrainingController(    
         data_path=DATA_PATH,
         metric_focus=METRIC_FOCO,
-        iterations=10,
+        iterations=5,
         dict_params=dict_params
     )
     #controller.run_data_analysis()

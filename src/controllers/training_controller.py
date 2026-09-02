@@ -11,7 +11,7 @@ from models.excel_geter import preparar_dados_para_treino, pegar_nomes_das_featu
 from views.data_report import DataReport
 from views.advanced_visualizations import AdvancedVisualizations, TrainingDiagnostic
 from sklearn.preprocessing import RobustScaler, PowerTransformer
-from sklearn.ensemble import RandomForestClassifier
+from sklearn.ensemble import RandomForestRegressor
 from sklearn.linear_model import LogisticRegression
 import numpy as np
 import pandas as pd
@@ -54,7 +54,7 @@ class TrainingController:
         #removed_features_mlp = ["ankle_y_std", "ankle_x_iqr", "heel_x_std", "big_toe_y_std", "heel_x_iqr", "big_toe_x_iqr", "heel_y_iqr"]
         #removed_features_knn = ["heel_x_iqr", "heel_y_std"]
         #random_states = [777]    # Random State para o melhor MLP 
-        #random_states = [647] # Random State para o melhor KNN
+        #random_states = [647] # Random State para o melhor KNNcf
         
         all_metrics = []
         all_reports = []
@@ -94,15 +94,12 @@ class TrainingController:
         """Executa análises exploratórias nos dados."""
         start_time = time.time()
 
-        rs = 777 # random_state do melhor modelo encontrado para o MLP
-        #rs = 647 # random_state do melhor modelo encontrado para o KNN
-        #removed_features_knn = ["heel_x_iqr"]
-        #removed_features_mlp = ["big_toe_x_iqr"]
+        rs = random.randint(1, 1000)
 
-        X, y = preparar_dados_para_treino(self.data_handler.data_path, self.data_handler.results_path)
+        X, y = preparar_dados_para_treino(self.data_handler.data_path)
         #X = self.data_handler.remove_feature(X, removed_features_knn)
 
-        DataReport.generate_report_balenceamento(y)
+        #DataReport.generate_report_balenceamento(y)
 
         feature_names = pegar_nomes_das_features(self.data_handler.data_path)
        
@@ -124,73 +121,14 @@ class TrainingController:
             y_teste=y_val
         )
 
-        X_val_scaled = PowerTransformer().fit_transform(X_val)
-        importance_df = self.data_handler.make_permutation_importance(model, X_val_scaled, y_val, feature_names)
+        #X_val_scaled = PowerTransformer().fit_transform(X_val)
+        importance_df = self.data_handler.make_permutation_importance(model, X_val, y_val, feature_names)
         print("\n--- Resultado da Análise de Features ---")
         print(importance_df.to_string(index=False))
 
         # Relatório de Importância de Features
         DataReport.generate_report_importance(importance_df)
-        
-        # Matriz de Confusão
-        AdvancedVisualizations.plot_confusion_matrix(y_val, model.predict(X_val_scaled), class_names=["Classe 0", "Classe 1"], dataset_name="Pé frontal esquerdo - 150 amostras - 2 classes")
-        
-  
-        print("\n--- Gerando Visualizações Detalhadas ---")
-        
-        # Preparar dados completos para visualizações (sem split)
-        X_full, y_full = preparar_dados_para_treino(self.data_handler.data_path, self.data_handler.results_path)
-        X_full_scaled = RobustScaler().fit_transform(X_full)
-        X_full_df = pd.DataFrame(X_full_scaled, columns=feature_names)
-        
-        # Treinar modelos adicionais para comparação de importância
-        rf_model = RandomForestClassifier(n_estimators=100, random_state=rs, n_jobs=-1)
-        rf_model.fit(X_full_scaled, y_full)
-        
-        lr_model = LogisticRegression(max_iter=1000, random_state=rs)
-        lr_model.fit(X_full_scaled, y_full)
-        
-        # Extrair importâncias da árcore
-        rf_feature_importances = rf_model.feature_importances_
-        
-        # Para Regressão Logística eu peguei a média dos valores absolutos dos coeficientes
-        if len(lr_model.coef_.shape) == 2 and lr_model.coef_.shape[0] > 1:
-            lr_coefficients = np.mean(np.abs(lr_model.coef_), axis=0)
-        else:
-            lr_coefficients = np.abs(lr_model.coef_.flatten())
-        
-        # Comparação de Importância de Features com Gráficos
-        print("\n Gerando comparação de importância de features...")
-        AdvancedVisualizations.plot_feature_importance_comparison(
-            permutation_importance_df=importance_df,
-            rf_feature_importances=rf_feature_importances,
-            lr_coefficients=lr_coefficients,
-            feature_names=feature_names,
-            dataset_name="Pé frontal esquerdo - 150 amostras - 2 classes"
-        )
-        
-        # Identificar Top 2 features de cada método
-        top_features_dict = AdvancedVisualizations.get_top_2_features(
-            permutation_importance_df=importance_df,
-            rf_feature_importances=rf_feature_importances,
-            lr_coefficients=lr_coefficients,
-            feature_names=feature_names
-        )
-        
-        print(f"\nTop 2 Features - Permutation Importance: {top_features_dict['permutation']}")
-        print(f"Top 2 Features - Random Forest: {top_features_dict['random_forest']}")
-        print(f"Top 2 Features - Logistic Regression: {top_features_dict['logistic_regression']}")
-        
-        # Plots 2D com as Duas Melhores Features de Cada Método
-        print("\nGerando plots 2D das top features...")
-        AdvancedVisualizations.plot_2d_scatter_top_features(
-            X=X_full_df,
-            y=y_full,
-            top_features_dict=top_features_dict,
-            class_names=["Classe 0", "Classe 1"],
-            dataset_name="Pé frontal esquerdo - 150 amostras - 2 classes"
-        )
-        
+
         total_minutes = (time.time() - start_time) / 60
         print(f"Tempo gasto em minutos: {total_minutes:.2f}")
 
