@@ -27,7 +27,7 @@ if __name__ == "__main__":
     controller = TrainingController(    
         data_path=DATA_PATH,
         metric_focus=METRIC_FOCO,
-        iterations=5,
+        iterations=10,
         dict_params=dict_params
     )
     #controller.run_data_analysis()
