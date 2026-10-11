@@ -18,7 +18,7 @@ if __name__ == "__main__":
     dict_params = None
 
     # Definição de caminhos para planilhas
-    DATA_PATH = "./planilhas/Machine learning ganhos de forca (FIM POS).xlsx"
+    DATA_PATH = "./planilhas/Machine learning ganhos de forca (MT-POS).xlsx"
 
     # Métrica alvo para Regressão: 'r2', 'mae', 'mse' ou 'rmse'
     METRIC_FOCO = "rmse"
