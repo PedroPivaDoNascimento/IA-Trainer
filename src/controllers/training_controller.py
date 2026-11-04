@@ -64,6 +64,10 @@ class TrainingController:
         for i, rs in enumerate(random_states):
             X, y = preparar_dados_para_treino(self.data_handler.data_path, self.data_handler.results_path)
             X = self.data_handler.remove_feature(X, removed_features_mlp)
+            # Pré-processamento: remoção de outliers (Método de Tukey / regra do IQR)
+            # nas colunas numéricas antes do treinamento. Linhas com outlier em
+            # qualquer coluna são removidas inteiramente da base de treino.
+            X, y = self.data_handler.remove_outliers(X, y)
             X_train, X_test, y_train, y_test = self.data_handler.load_and_split(
                 random_state=rs, X=X, y=y
             )
