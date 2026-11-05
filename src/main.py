@@ -20,7 +20,7 @@ if __name__ == "__main__":
     # Definição de caminhos para planilhas
     DATA_PATH = "./planilhas/Agachamento_Unipodal/dados_treinamento_quadril_esquerdo.xlsx"
 
-    # Métrica alvo: 'f1_score', 'accuracy', 'precision','recall' ou 'roc_auc'
+    # Métrica alvo: 'f1_score', 'accuracy', 'precision','recall', 'roc_auc' ou 'mcc'
     METRIC_FOCO = "f1_score"
 
     # Inicializa e executa o controlador
