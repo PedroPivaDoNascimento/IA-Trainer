@@ -6,24 +6,60 @@ import numpy as np
 from sklearn.model_selection import train_test_split
 from .excel_geter import preparar_dados_para_treino
 import pandas as pd
-from typing import Any
+from typing import Any, Optional
 from sklearn.inspection import permutation_importance
 import pandas as pd
+from .outlier_handler import TukeyOutlierRemover
 
 
 class DataHandler:
     """Gerencia o carregamento e a divisão estratificada dos dados."""
 
-    def __init__(self, data_path: str, results_path: str) -> None:
+    def __init__(self, data_path: str) -> None:
         """
         Inicializa o manipulador de dados.
 
         Args:
             data_path: Caminho para o arquivo Excel com features.
-            results_path: Caminho para o arquivo Excel com labels.
         """
         self.data_path = data_path
-        self.results_path = results_path
+        # Estratégia de pré-processamento (Método de Tukey / regra do IQR).
+        # Mantida como dependência interna para permitir troca de estratégia
+        # sem alterar o fluxo existente (DIP/OCP).
+        self.outlier_remover = TukeyOutlierRemover(factor=1.5)
+
+    def remove_outliers(
+        self, X: pd.DataFrame, y: Optional[np.ndarray] = None, verbose: bool = True
+    ) -> Tuple[pd.DataFrame, Optional[np.ndarray]]:
+        """
+        Etapa de pré-processamento: remove outliers das colunas numéricas usando
+        o Método de Tukey (regra do IQR: Q1 - 1.5*IQR <= valor <= Q3 + 1.5*IQR).
+
+        O cálculo é realizado coluna a coluna; se uma linha apresentar valor
+        outlier em qualquer coluna aplicável, a linha inteira é removida da base
+        destinada ao treinamento (X e y permanecem alinhados).
+
+        Args:
+            X: DataFrame de features.
+            y: Vetor de labels correspondente (opcional); filtrado em conjunto.
+            verbose: Se True, imprime um resumo da remoção realizada.
+
+        Returns:
+            Tupla (X_sem_outliers, y_filtrado).
+        """
+        total_antes = len(X)
+        X_limpo, outlier_mask = self.outlier_remover.remove_outliers(X)
+
+        y_limpo = y
+        if y is not None:
+            y_limpo = np.asarray(y)[~outlier_mask.to_numpy()]
+
+        if verbose:
+            removidas = total_antes - len(X_limpo)
+            percentual = (removidas / total_antes * 100) if total_antes else 0.0
+            print(f"[Outliers/Tukey] Linhas removidas: {removidas} de {total_antes} ({percentual:.2f}%)")
+
+        return X_limpo, y_limpo
 
     def load_and_split(
         self, test_size: float = 0.2, random_state: int = 67, X: np.ndarray = None, y: np.ndarray = None
@@ -68,7 +104,7 @@ class DataHandler:
         Returns:
             Tupla contendo (X_train, X_test, y_train, y_test).
         """
-        X, y = preparar_dados_para_treino(self.data_path, self.results_path)
+        X, y = preparar_dados_para_treino(self.data_path)
         return train_test_split(
             X, y, test_size=test_size, random_state=random_state, stratify=y
         )

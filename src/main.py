@@ -18,8 +18,7 @@ if __name__ == "__main__":
     dict_params = None
 
     # Definição de caminhos para planilhas
-    DATA_PATH = "./planilhas/planilhas_dados/dados_pe_frontal_esquerdo_150_2_col.xlsx"
-    RESULTS_PATH = "./planilhas/planilhas_resultados/resultados_pe_frontal_esquerdo_150.xlsx"
+    DATA_PATH = "./planilhas/Agachamento_Unipodal/dados_treinamento_quadril_esquerdo.xlsx"
 
     # Métrica alvo: 'f1_score', 'accuracy', 'precision','recall' ou 'roc_auc'
     METRIC_FOCO = "f1_score"
@@ -27,7 +26,6 @@ if __name__ == "__main__":
     # Inicializa e executa o controlador
     controller = TrainingController(
         data_path=DATA_PATH,
-        results_path=RESULTS_PATH,
         metric_focus=METRIC_FOCO,
         iterations=10,
         dict_params=dict_params

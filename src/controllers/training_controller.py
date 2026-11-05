@@ -23,7 +23,6 @@ class TrainingController:
     def __init__(
         self,
         data_path: str,
-        results_path: str,
         metric_focus: str = "recall",
         iterations: int = 10,
         dict_params: dict = None
@@ -38,7 +37,7 @@ class TrainingController:
             metric_focus: Métrica alvo.
             iterations: Número de execuções com random states diferentes.
         """
-        self.data_handler = DataHandler(data_path, results_path)
+        self.data_handler = DataHandler(data_path)
         self.trainer = Trainer(metric_focus, dict_params=dict_params)
         self.metrics_handler = MetricsHandler(metric_focus)
         self.view = ReportView()
@@ -60,10 +59,15 @@ class TrainingController:
         all_metrics = []
         all_reports = []
         all_params = []
+        
+        X, y = preparar_dados_para_treino(self.data_handler.data_path)
+        X, y = self.data_handler.remove_outliers(X, y)
 
         for i, rs in enumerate(random_states):
-            X, y = preparar_dados_para_treino(self.data_handler.data_path, self.data_handler.results_path)
-            X = self.data_handler.remove_feature(X, removed_features_mlp)
+            #X = self.data_handler.remove_feature(X, removed_features_mlp)
+            # Pré-processamento: remoção de outliers (Método de Tukey / regra do IQR)
+            # nas colunas numéricas antes do treinamento. Linhas com outlier em
+            # qualquer coluna são removidas inteiramente da base de treino.
             X_train, X_test, y_train, y_test = self.data_handler.load_and_split(
                 random_state=rs, X=X, y=y
             )
@@ -100,7 +104,7 @@ class TrainingController:
         #removed_features_knn = ["heel_x_iqr"]
         #removed_features_mlp = ["big_toe_x_iqr"]
 
-        X, y = preparar_dados_para_treino(self.data_handler.data_path, self.data_handler.results_path)
+        X, y = preparar_dados_para_treino(self.data_handler.data_path)
         #X = self.data_handler.remove_feature(X, removed_features_knn)
 
         DataReport.generate_report_balenceamento(y)
