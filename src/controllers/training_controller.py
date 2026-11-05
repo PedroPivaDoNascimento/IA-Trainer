@@ -50,6 +50,7 @@ class TrainingController:
         """Executa o loop principal de treinamento, avaliação e relatório."""
         start_time = time.time()
         random_states = [random.randint(1, 1000) for _ in range(self.iterations)]
+        random_states = [470]
         #removed_features_mlp = ["big_toe_x_iqr", "heel_y_iqr"]
         removed_features_mlp = ["ankle_y_std", "ankle_x_iqr", "heel_x_std", "big_toe_y_std", "heel_x_iqr", "big_toe_x_iqr", "heel_y_iqr"]
         #removed_features_knn = ["heel_x_iqr", "heel_y_std"]
@@ -59,7 +60,7 @@ class TrainingController:
         all_metrics = []
         all_reports = []
         all_params = []
-        
+
         X, y = preparar_dados_para_treino(self.data_handler.data_path)
         X, y = self.data_handler.remove_outliers(X, y)
 

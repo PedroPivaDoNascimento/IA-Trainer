@@ -123,16 +123,16 @@ class ModelConfig:
              #        0.00005
              #    ]
              #},
-            {
-                "clf": [SVC(random_state=42, class_weight="balanced")],
-                #"clf__C": [0.1, 1, 5, 10, 50, 100],
-                "clf__C": [2.5, 5, 7.5],
-                #"clf__kernel": ["rbf", "poly"],
-                "clf__kernel": ["rbf", "linear", "sigmoid"], #"precomputed", "cosine", "laplacian", "chi2", "additive_chi2"],
-                "clf__gamma": ["auto", 0.01, 1],
-                "scaler": scalers,
-                "reducao": reducoes,
-            },
+            #{
+            #    "clf": [SVC(random_state=42, class_weight="balanced")],
+            #    #"clf__C": [0.1, 1, 5, 10, 50, 100],
+            #    "clf__C": [2.5, 5, 7.5],
+            #    #"clf__kernel": ["rbf", "poly"],
+            #    "clf__kernel": ["rbf", "linear", "sigmoid"], #"precomputed", "cosine", "laplacian", "chi2", "additive_chi2"],
+            #    "clf__gamma": ["auto", 0.01, 1],
+            #    "scaler": scalers,
+            #    "reducao": reducoes,
+            #},
             #{
             #    "clf": [LinearSVC(random_state=42, class_weight="balanced")],
             #    "clf__max_iter": [1000, 2000],
