@@ -24,6 +24,7 @@ class ReportView:
         print(f"{'Acuracia(CV - precision)':<28} {metrics['precision']:.2f}%")
         print(f"{'Acuracia(CV - recall)':<28} {metrics['recall']:.2f}%")
         print(f"{'Acuracia(CV - roc_auc)':<28} {metrics['roc_auc']:.2f}%")
+        print(f"{'Acuracia(CV - mcc)':<28} {metrics['mcc']:.2f}%")
         print(f"{'Desvio Padrão (CV - ' + focus + ')':<28} {metrics['std']:.4f}%")
         print(f"{'-'*60}")
 

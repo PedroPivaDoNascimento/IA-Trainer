@@ -26,6 +26,10 @@ class Trainer:
         self.metric_focus = metric_focus
         self.param_grid = dict_params if dict_params is not None else ModelConfig.get_param_grid()        
         self.refit_metric = METRIC_SCORING_MAP[metric_focus] # Metrica que o treinamento irá tentar achar o melhor modelo
+        if not isinstance(self.refit_metric, str):
+            # Scorer customizado (ex: MCC via make_scorer): o GridSearchCV exige
+            # uma string como `refit`, que deve corresponder a uma chave do dicionário de scoring.
+            self.refit_metric = metric_focus
         self.scoring = SCORING_PIPELINE_MAP # Metricas usadas no GridSearch
         self.random_state = 31
 

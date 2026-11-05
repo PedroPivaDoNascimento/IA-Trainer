@@ -10,7 +10,7 @@ Este é um framework modular de machine learning desenvolvido em Python para tre
   - Random Forest, Extra Trees, Gradient Boosting
   - K-Nearest Neighbors, Regressão Logística, Ridge Classifier
 - **Pré-processamento Flexível:** Testa automaticamente 9 tipos de escalonadores (`StandardScaler`, `RobustScaler`, `MinMaxScaler`, etc.) e suporta redução de dimensionalidade (`PCA`, `SelectKBest`).
-- **Múltiplas Métricas de Otimização:** Treine focando em `accuracy`, `f1_score`, `precision` ou `recall`, ideal para bases balanceadas ou desbalanceadas.
+- **Múltiplas Métricas de Otimização:** Treine focando em `accuracy`, `f1_score`, `precision`, `recall`, `roc_auc` ou `mcc` (Coeficiente de Correlação de Matthews), ideal para bases balanceadas ou desbalanceadas.
 - **Avaliação Robusta:** Executa o treinamento com múltiplas sementes aleatórias (`random_state`) e calcula a média estatística dos resultados para maior confiabilidade.
 - **Persistência de Modelos:** Exporta automaticamente o melhor pipeline treinado para arquivos `.pkl` usando `joblib`.
 - **Arquitetura MVC + SOLID:** Código organizado em módulos (Model, View, Controller) seguindo boas práticas de engenharia de software, facilitando manutenção e testes.
@@ -59,7 +59,7 @@ Siga estes passos para configurar e executar o projeto localmente:
     ```python
     DATA_PATH = "./planilhas/planilhas_dados/sua_planilha_dados.xlsx"
     RESULTS_PATH = "./planilhas/planilhas_resultados/sua_planilha_resultados.xlsx"
-    METRIC_FOCO = "recall"  # Opções: 'f1_score', 'accuracy', 'precision', 'recall'
+    METRIC_FOCO = "recall"  # Opções: 'f1_score', 'accuracy', 'precision', 'recall', 'roc_auc', 'mcc'
     ```
 
 3.  Execute o script principal para iniciar o treinamento:
