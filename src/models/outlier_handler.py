@@ -57,7 +57,7 @@ class TukeyOutlierRemover:
     def find_outliers(self, X: pd.DataFrame) -> pd.Series:
         """
         Identifica as linhas que contêm ao menos um valor outlier em qualquer
-        coluna numérica aplicável.
+        coluna numérica aplicável e imprime onde foram encontrados.
 
         Args:
             X: DataFrame de features.
@@ -69,48 +69,23 @@ class TukeyOutlierRemover:
         for col in self.get_numeric_columns(X):
             limite_inferior, limite_superior = self.compute_bounds(X[col])
             values = X[col]
-            # NaN não é considerado outlier: a regra se aplica apenas a valores
-            # efetivamente fora dos limites.
+            
+            # Identifica os outliers desta coluna específica
             is_outlier = (values < limite_inferior) | (values > limite_superior)
-            outlier_mask |= is_outlier.fillna(False)
+            is_outlier = is_outlier.fillna(False) # Garante que NaN vire False antes de checar
+
+            if is_outlier.any():
+                # Pega apenas os índices das linhas onde is_outlier é True
+                linhas_com_outlier = is_outlier[is_outlier].index
+                for idx in linhas_com_outlier:
+                    valor_outlier = X.loc[idx, col]
+                    print(f"[OUTLIER DETECTADO] Coluna: '{col}' | Linha/Índice: {idx} | Valor: {valor_outlier}")
+
+            outlier_mask |= is_outlier
+            
         return outlier_mask
 
-    def summarize_columns(self, X: pd.DataFrame) -> pd.DataFrame:
-        """
-        Gera um resumo por coluna numérica com Q1, Q3, IQR, margem, limites
-        inferior/superior e a contagem de outliers detectados.
-
-        Args:
-            X: DataFrame de features.
-
-        Returns:
-            DataFrame de resumo (uma linha por coluna numérica).
-        """
-        bounds_info: Dict[str, Dict[str, float]] = {}
-        for col in self.get_numeric_columns(X):
-            q1 = X[col].quantile(0.25)
-            q3 = X[col].quantile(0.75)
-            iqr = q3 - q1
-            margem = self.factor * iqr
-            limite_inferior = q1 - margem
-            limite_superior = q3 + margem
-            is_outlier = ((X[col] < limite_inferior) | (X[col] > limite_superior)).fillna(False)
-
-            bounds_info[col] = {
-                "Q1": q1,
-                "Q3": q3,
-                "IQR": iqr,
-                "Margem": margem,
-                "Limite_Inferior": limite_inferior,
-                "Limite_Superior": limite_superior,
-                "Outliers": int(is_outlier.sum()),
-            }
-
-        info_df = pd.DataFrame.from_dict(bounds_info, orient="index")
-        info_df.index.name = "Coluna"
-        return info_df
-
-    def remove_outliers(self, X: pd.DataFrame) -> Tuple[pd.DataFrame, pd.Series, pd.DataFrame]:
+    def remove_outliers(self, X: pd.DataFrame) -> Tuple[pd.DataFrame, pd.Series]:
         """
         Remove do DataFrame as linhas que possuam outlier em qualquer coluna numérica.
 
@@ -121,8 +96,7 @@ class TukeyOutlierRemover:
             Tupla (X_limpo, mascara_outlier, resumo_por_coluna).
         """
         outlier_mask = self.find_outliers(X)
-        resumo = self.summarize_columns(X)
-        return X.loc[~outlier_mask], outlier_mask, resumo
+        return X.loc[~outlier_mask], outlier_mask
 
 
 def remove_outliers_tukey(

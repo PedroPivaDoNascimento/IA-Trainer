@@ -15,16 +15,14 @@ from .outlier_handler import TukeyOutlierRemover
 class DataHandler:
     """Gerencia o carregamento e a divisão estratificada dos dados."""
 
-    def __init__(self, data_path: str, results_path: str) -> None:
+    def __init__(self, data_path: str) -> None:
         """
         Inicializa o manipulador de dados.
 
         Args:
             data_path: Caminho para o arquivo Excel com features.
-            results_path: Caminho para o arquivo Excel com labels.
         """
         self.data_path = data_path
-        self.results_path = results_path
         # Estratégia de pré-processamento (Método de Tukey / regra do IQR).
         # Mantida como dependência interna para permitir troca de estratégia
         # sem alterar o fluxo existente (DIP/OCP).
@@ -50,7 +48,7 @@ class DataHandler:
             Tupla (X_sem_outliers, y_filtrado).
         """
         total_antes = len(X)
-        X_limpo, outlier_mask, resumo = self.outlier_remover.remove_outliers(X)
+        X_limpo, outlier_mask = self.outlier_remover.remove_outliers(X)
 
         y_limpo = y
         if y is not None:
@@ -60,8 +58,6 @@ class DataHandler:
             removidas = total_antes - len(X_limpo)
             percentual = (removidas / total_antes * 100) if total_antes else 0.0
             print(f"[Outliers/Tukey] Linhas removidas: {removidas} de {total_antes} ({percentual:.2f}%)")
-            if removidas > 0:
-                print(resumo.to_string())
 
         return X_limpo, y_limpo
 
@@ -108,7 +104,7 @@ class DataHandler:
         Returns:
             Tupla contendo (X_train, X_test, y_train, y_test).
         """
-        X, y = preparar_dados_para_treino(self.data_path, self.results_path)
+        X, y = preparar_dados_para_treino(self.data_path)
         return train_test_split(
             X, y, test_size=test_size, random_state=random_state, stratify=y
         )

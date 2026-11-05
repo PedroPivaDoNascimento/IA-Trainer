@@ -63,65 +63,65 @@ class ModelConfig:
         reducoes = ModelConfig.get_reducoes()
 
         return [
-            # {
-            #     "clf": [Perceptron(random_state=42, class_weight="balanced")],
-            #     "clf__eta0": [0.1, 0.01, 1.0],
-            #     "clf__penalty": ["l2", "l1", "elasticnet"],
-            #     "scaler": scalers,
-            #     "reducao": ["passthrough"],
-            # },
              {
+                 "clf": [Perceptron(random_state=42, class_weight="balanced")],
+                 "clf__eta0": [0.1, 0.01, 1.0],
+                 "clf__penalty": ["l2", "l1", "elasticnet"],
                  "scaler": scalers,
-                 "reducao": reducoes,
-                 "clf": [MLPClassifier(random_state=31)],
-                 "clf__activation": [
-                     "tanh",
-                     "relu"
-                 ],
-                 "clf__hidden_layer_sizes": [
-                     (24,),
-                     (32,),
-                     #(40,),
-                     #(48,),
-                     #(24, 12),
-                     #(32, 16)
-                 ],
-                 "clf__alpha": [
-                     0.00005,
-                     0.0001,
-                     #0.0002,
-                     #0.0005,
-                     #0.01
-                 ],
-                 "clf__learning_rate_init": [
-                     #0.005,
-                     #0.0075,
-                     0.01,
-                     0.015,
-                     #0.1
-                 ],
-                 "clf__early_stopping": [True],
-                 "clf__validation_fraction": [
-                     0.08, 
-                     0.10, 
-                     #0.12, 
-                     #0.15
-                 ],
-                 "clf__max_iter": [
-                     500,
-                     1000,
-                     #1500
-                 ],
-                 "clf__n_iter_no_change": [
-                     10, 
-                    15, 
-                     #20
-                 ],
-                 "clf__tol": [
-                     0.0001, 
-                     0.00005
-                 ]
+                 "reducao": ["passthrough"],
              },
+             #{
+             #    "scaler": scalers,
+             #    "reducao": reducoes,
+             #    "clf": [MLPClassifier(random_state=31)],
+             #    "clf__activation": [
+             #        "tanh",
+             #        "relu"
+             #    ],
+             #    "clf__hidden_layer_sizes": [
+             #        (24,),
+             #        (32,),
+             #        #(40,),
+             #        #(48,),
+             #        #(24, 12),
+             #        #(32, 16)
+             #    ],
+             #    "clf__alpha": [
+             #        0.00005,
+             #        0.0001,
+             #        #0.0002,
+             #        #0.0005,
+             #        #0.01
+             #    ],
+             #    "clf__learning_rate_init": [
+             #        #0.005,
+             #        #0.0075,
+             #        0.01,
+             #        0.015,
+             #        #0.1
+             #    ],
+             #    "clf__early_stopping": [True],
+             #    "clf__validation_fraction": [
+             #        0.08, 
+             #        0.10, 
+             #        #0.12, 
+             #        #0.15
+             #    ],
+             #    "clf__max_iter": [
+             #        500,
+             #        1000,
+             #        #1500
+             #    ],
+             #    "clf__n_iter_no_change": [
+             #        10, 
+             #       15, 
+             #        #20
+             #    ],
+             #    "clf__tol": [
+             #        0.0001, 
+             #        0.00005
+             #    ]
+             #},
             #{
             #    "clf": [SVC(random_state=42, class_weight="balanced")],
             #    "clf__C": [0.1, 1, 5, 10, 50, 100],
