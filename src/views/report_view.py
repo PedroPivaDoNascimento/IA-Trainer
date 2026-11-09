@@ -20,6 +20,7 @@ class ReportView:
         header = f"\n{'='*60}\nMELHOR MODELO — OTIMIZADO POR: {focus.upper()}\n{'='*60}"
         print(header)
         print(f"{'Acuracia(CV - accuracy)':<28} {metrics['accuracy']:.2f}%")
+        print(f"{'Acuracia(CV - balanced_accuracy)':<28} {metrics['balanced_accuracy']:.2f}%")
         print(f"{'Acuracia(CV - f1_score)':<28} {metrics['f1_score']:.2f}%")
         print(f"{'Acuracia(CV - precision)':<28} {metrics['precision']:.2f}%")
         print(f"{'Acuracia(CV - recall)':<28} {metrics['recall']:.2f}%")
