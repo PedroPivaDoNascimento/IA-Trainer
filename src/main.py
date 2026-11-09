@@ -17,12 +17,12 @@ if __name__ == "__main__":
     warnings.filterwarnings("ignore")
 
     #Parametros específicos para o KNN
-    dict_params = {'clf': [RandomForestRegressor(random_state=42)], 'clf__ccp_alpha': [0.01], 'clf__criterion': ['squared_error'], 'clf__max_depth': [None], 'clf__min_samples_split': [5], 'clf__n_estimators': [145], 'reducao': ['passthrough'], 'scaler': [None]}
+    #dict_params = {'clf': [Ridge()], 'clf__alpha': [0.3], 'clf__fit_intercept': [True], 'reducao': ['passthrough'], 'scaler': [StandardScaler()]}
 
-    #dict_params = None
+    dict_params = None
 
     # Definição de caminhos para planilhas
-    DATA_PATH = "./planilhas/Machine learning ganhos de forca (FIM POS).xlsx"
+    DATA_PATH = "./planilhas/João/dados_novos/Machine learning ganhos de forca (FIM POS).xlsx"
 
     # Métrica alvo para Regressão: 'r2', 'mae', 'mse' ou 'rmse'
     METRIC_FOCO = "rmse"
@@ -34,5 +34,5 @@ if __name__ == "__main__":
         iterations=10,
         dict_params=dict_params
     )
-    controller.run_data_analysis()
-    #controller.run()
+    #controller.run_data_analysis()
+    controller.run()

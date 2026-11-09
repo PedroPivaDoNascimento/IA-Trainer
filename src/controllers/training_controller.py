@@ -50,11 +50,7 @@ class TrainingController:
         """Executa o loop principal de treinamento, avaliação e relatório."""
         start_time = time.time()
         random_states = [random.randint(1, 1000) for _ in range(self.iterations)]
-        #removed_features_mlp = ["big_toe_x_iqr", "heel_y_iqr"]
-        #removed_features_mlp = ["ankle_y_std", "ankle_x_iqr", "heel_x_std", "big_toe_y_std", "heel_x_iqr", "big_toe_x_iqr", "heel_y_iqr"]
-        #removed_features_knn = ["heel_x_iqr", "heel_y_std"]
-        #random_states = [777]    # Random State para o melhor MLP 
-        #random_states = [647] # Random State para o melhor KNNcf
+        #random_states = [961]
         
         all_metrics = []
         all_reports = []
