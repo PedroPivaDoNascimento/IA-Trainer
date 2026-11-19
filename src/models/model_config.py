@@ -35,12 +35,12 @@ class ModelConfig:
             #RobustScaler(quantile_range=(20, 80)),
             #RobustScaler(quantile_range=(10, 90)),
             #RobustScaler(quantile_range=(30, 70)),
-            MinMaxScaler(),
+            #MinMaxScaler(),
             MaxAbsScaler(),
-            QuantileTransformer(output_distribution="uniform", random_state=42),
+            #QuantileTransformer(output_distribution="uniform", random_state=42),
             #QuantileTransformer(output_distribution="normal", random_state=42),
-            PowerTransformer(method="yeo-johnson"),
-            Normalizer(norm="l2"),
+            #PowerTransformer(method="yeo-johnson"),
+            #Normalizer(norm="l2"),
             #None,
         
         ]   
@@ -51,11 +51,11 @@ class ModelConfig:
         return [
             "passthrough",
             #PCA(n_components=0.90, random_state=31),
-            PCA(n_components=0.95, random_state=31),
-            #PCA(n_components=0.97, random_state=31),
-            #PCA(n_components=0.98, random_state=31),
+            #PCA(n_components=0.95, random_state=31),
+            PCA(n_components=0.97, random_state=31),
+            PCA(n_components=0.98, random_state=31),
             PCA(n_components=0.99, random_state=31),
-            SelectKBest(score_func=f_regression, k="all")
+            #SelectKBest(score_func=f_regression, k="all")
         ]
 
     @staticmethod
@@ -70,14 +70,14 @@ class ModelConfig:
         reducoes = ModelConfig.get_reducoes()
 
         return [
-            #{
-            #    "clf": [SVR()],
-            #    "clf__C": [60, 75, 100],
-            #    "clf__kernel": ["rbf"],
-            #    "clf__gamma": ["scale", "auto"],
-            #    "scaler": scalers,
-            #    "reducao": reducoes,   
-            #},
+            {
+                "clf": [SVR()],
+                "clf__C": [40, 60, 50,],
+                "clf__kernel": ["linear"],
+                "clf__gamma": ["scale", "auto"],
+                "scaler": scalers,
+                "reducao": reducoes,   
+            },
             #{
             #    "clf": [RandomForestRegressor(random_state=42)],
             #    "clf__n_estimators": [145],
@@ -97,15 +97,15 @@ class ModelConfig:
             #    "scaler": [None],
             #    "reducao": ["passthrough"],
             #},
-            {
-                "clf": [GradientBoostingRegressor(random_state=42)],
-                "clf__n_estimators": [125],
-                "clf__learning_rate": [0.125],
-                "clf__max_depth": [4],
-                "clf__loss": ["absolute_error"],
-                "scaler": [None],
-                "reducao": reducoes,
-            },
+            #{
+            #    "clf": [GradientBoostingRegressor(random_state=42)],
+            #    "clf__n_estimators": [125],
+            #    "clf__learning_rate": [0.125],
+            #    "clf__max_depth": [4],
+            #    "clf__loss": ["absolute_error"],
+            #    "scaler": [None],
+            #    "reducao": reducoes,
+            #},
             #{
             #     "clf": [KNeighborsRegressor()],
             #     "clf__n_neighbors": [7],
@@ -123,9 +123,9 @@ class ModelConfig:
             #},
             #{
             #    "clf": [Ridge()],
-            #    "clf__alpha": [0.5, 0.75, 0.9],
+            #    "clf__alpha": [0.25,0.35, 0.4, 0.45],
             #    #"clf__solver": ["auto", "svd", "cholesky", "lsqr", "saga"],
-            #    #"clf__tol": [5.5e-4, 6e-4, 7e-4, 8e-4, 9e-4],
+            #    "clf__tol": [5.5e-4, 6e-4, 7e-4, 8e-4, 9e-4],
             #    "clf__fit_intercept": [True, False],
             #    "scaler": scalers,
             #    "reducao": reducoes,

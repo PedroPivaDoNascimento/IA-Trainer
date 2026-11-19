@@ -1,6 +1,4 @@
-        
-        MELHOR
-        ====== MODELO 9 ======
+        ====== MODELO 1 ======
 
 ============================================================
 MELHOR MODELO — OTIMIZADO POR: RMSE
@@ -20,122 +18,123 @@ RMSE     : 0.9708
 Parâmetros: {'clf': LinearRegression(), 'clf__fit_intercept': True, 'clf__positive': True, 'reducao': 'passthrough', 'scaler': QuantileTransformer(random_state=42)}
 Random State usado: 758
 
-        ====== MODELO 4 ======
+       ====== MODELO 1 ======
 
 ============================================================
 MELHOR MODELO — OTIMIZADO POR: RMSE
 ============================================================
-Métrica (CV - R2 Score)      0.5856
-Métrica (CV - MAE)           0.9920
-Métrica (CV - MSE)           1.5244
-Métrica (CV - RMSE)          1.2266
-Desvio Padrão (CV - rmse)    0.1406
+Métrica (CV - R2 Score)      0.5864
+Métrica (CV - MAE)           0.9947
+Métrica (CV - MSE)           1.5392
+Métrica (CV - RMSE)          1.2330
+Desvio Padrão (CV - rmse)    0.1372
 ------------------------------------------------------------
 === Relatório de Avaliação no Teste ===
-R2 Score : 0.8609
-MAE      : 0.9919
-MSE      : 1.6779
-RMSE     : 1.2953
+R2 Score : 0.8576
+MAE      : 1.0010
+MSE      : 1.7173
+RMSE     : 1.3105
 
 Parâmetros: {'clf': Ridge(), 'clf__alpha': 0.5, 'clf__fit_intercept': True, 'reducao': PCA(n_components=0.95, random_state=31), 'scaler': QuantileTransformer(random_state=42)}
 Random State usado: 416
 
-        ====== MODELO 3 ======
+        ====== MODELO 1 ======
 
 ============================================================
 MELHOR MODELO — OTIMIZADO POR: RMSE
 ============================================================
-Métrica (CV - R2 Score)      0.5171
-Métrica (CV - MAE)           1.0687
-Métrica (CV - MSE)           1.8545
-Métrica (CV - RMSE)          1.3469
-Desvio Padrão (CV - rmse)    0.2009
+Métrica (CV - R2 Score)      0.5172
+Métrica (CV - MAE)           1.0706
+Métrica (CV - MSE)           1.8892
+Métrica (CV - RMSE)          1.3566
+Desvio Padrão (CV - rmse)    0.2207
 ------------------------------------------------------------
 === Relatório de Avaliação no Teste ===
-R2 Score : 0.8461
-MAE      : 0.9958
-MSE      : 1.2445
-RMSE     : 1.1156
+R2 Score : 0.8496
+MAE      : 0.9898
+MSE      : 1.2166
+RMSE     : 1.1030
 
 Parâmetros: {'clf': ElasticNet(random_state=42), 'clf__alpha': 0.1, 'clf__fit_intercept': True, 'clf__l1_ratio': 0.3, 'reducao': 'passthrough', 'scaler': StandardScaler()}
 Random State usado: 19
 
-        ====== MODELO 9 ======
+
+        ====== MODELO 1 ======
 
 ============================================================
 MELHOR MODELO — OTIMIZADO POR: RMSE
 ============================================================
-Métrica (CV - R2 Score)      0.6618
-Métrica (CV - MAE)           1.0975
-Métrica (CV - MSE)           1.8980
-Métrica (CV - RMSE)          1.3459
-Desvio Padrão (CV - rmse)    0.2944
+Métrica (CV - R2 Score)      0.6342
+Métrica (CV - MAE)           1.1278
+Métrica (CV - MSE)           1.9918
+Métrica (CV - RMSE)          1.3842
+Desvio Padrão (CV - rmse)    0.2753
 ------------------------------------------------------------
 === Relatório de Avaliação no Teste ===
-R2 Score : 0.8869
-MAE      : 0.7197
-MSE      : 0.7529
-RMSE     : 0.8677
+R2 Score : 0.8985
+MAE      : 0.6262
+MSE      : 0.6759
+RMSE     : 0.8222
 
 Parâmetros: {'clf': SVR(), 'clf__C': 100, 'clf__gamma': 'scale', 'clf__kernel': 'linear', 'reducao': PCA(n_components=0.99, random_state=31), 'scaler': PowerTransformer()}
 Random State usado: 202
 
-        ====== MODELO 3 ======
+        ====== MODELO 5 ======
 
 ============================================================
 MELHOR MODELO — OTIMIZADO POR: RMSE
 ============================================================
-Métrica (CV - R2 Score)      0.7092
-Métrica (CV - MAE)           0.9798
-Métrica (CV - MSE)           1.5596
-Métrica (CV - RMSE)          1.2032
-Desvio Padrão (CV - rmse)    0.3344
+Métrica (CV - R2 Score)      0.4273
+Métrica (CV - MAE)           1.1732
+Métrica (CV - MSE)           2.0479
+Métrica (CV - RMSE)          1.4120
+Desvio Padrão (CV - rmse)    0.2328
 ------------------------------------------------------------
 === Relatório de Avaliação no Teste ===
-R2 Score : 0.8393
-MAE      : 0.8877
-MSE      : 1.1640
-RMSE     : 1.0789
+R2 Score : 0.9197
+MAE      : 0.7735
+MSE      : 0.8242
+RMSE     : 0.9078
 
 Parâmetros: {'clf': SVR(), 'clf__C': 75, 'clf__gamma': 'auto', 'clf__kernel': 'rbf', 'reducao': PCA(n_components=0.99, random_state=31), 'scaler': MaxAbsScaler()}
-Random State usado: 643
+Random State usado: 468
 
-        ====== MODELO 2 ======
+       ====== MODELO 6 ======
 
 ============================================================
 MELHOR MODELO — OTIMIZADO POR: RMSE
 ============================================================
-Métrica (CV - R2 Score)      0.6353
-Métrica (CV - MAE)           1.1878
-Métrica (CV - MSE)           2.2655
-Métrica (CV - RMSE)          1.5034
-Desvio Padrão (CV - rmse)    0.0731
+Métrica (CV - R2 Score)      0.5032
+Métrica (CV - MAE)           1.2953
+Métrica (CV - MSE)           2.7615
+Métrica (CV - RMSE)          1.6510
+Desvio Padrão (CV - rmse)    0.1887
 ------------------------------------------------------------
 === Relatório de Avaliação no Teste ===
-R2 Score : 0.7133
-MAE      : 1.0435
-MSE      : 2.1368
-RMSE     : 1.4618
+R2 Score : 0.7994
+MAE      : 0.9569
+MSE      : 1.8179
+RMSE     : 1.3483
 
 Parâmetros: {'clf': RandomForestRegressor(random_state=42), 'clf__ccp_alpha': 0.01, 'clf__criterion': 'squared_error', 'clf__max_depth': None, 'clf__min_samples_split': 5, 'clf__n_estimators': 145, 'reducao': 'passthrough', 'scaler': None}
-Random State usado: 235
+Random State usado: 841
 
-        ====== MODELO 3 ======
+       ====== MODELO 2 ======
 
 ============================================================
 MELHOR MODELO — OTIMIZADO POR: RMSE
 ============================================================
-Métrica (CV - R2 Score)      0.6402
-Métrica (CV - MAE)           1.1013
-Métrica (CV - MSE)           2.2620
-Métrica (CV - RMSE)          1.4529
-Desvio Padrão (CV - rmse)    0.3886
+Métrica (CV - R2 Score)      0.4320
+Métrica (CV - MAE)           1.3464
+Métrica (CV - MSE)           3.1309
+Métrica (CV - RMSE)          1.7447
+Desvio Padrão (CV - rmse)    0.2950
 ------------------------------------------------------------
 === Relatório de Avaliação no Teste ===
-R2 Score : 0.7420
-MAE      : 1.0292
-MSE      : 1.6017
-RMSE     : 1.2656
+R2 Score : 0.8132
+MAE      : 1.1707
+MSE      : 1.9217
+RMSE     : 1.3863
 
 Parâmetros: {'clf': GradientBoostingRegressor(random_state=42), 'clf__learning_rate': 0.125, 'clf__loss': 'absolute_error', 'clf__max_depth': 4, 'clf__n_estimators': 125, 'reducao': 'passthrough', 'scaler': None}
-Random State usado: 938
+Random State usado: 352

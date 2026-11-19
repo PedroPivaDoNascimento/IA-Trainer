@@ -49,18 +49,18 @@ class TrainingController:
     def run(self) -> None:
         """Executa o loop principal de treinamento, avaliação e relatório."""
         start_time = time.time()
-        #random_states = [random.randint(1, 1000) for _ in range(self.iterations)]
-        random_states = [202]
+        random_states = [random.randint(1, 1000) for _ in range(self.iterations)]
+        #random_states = [202]
         
         all_metrics = []
         all_reports = []
         all_params = []
 
-        removed_features = ["1RM-PRE", "MT PRE", "MQ PRE"]
+        #removed_features = ["1RM-PRE", "MT PRE", "MQ PRE"]
 
         for i, rs in enumerate(random_states):
             X, y = preparar_dados_para_treino(self.data_handler.data_path)
-            X = self.data_handler.remove_feature(X, removed_features=removed_features)
+            #X = self.data_handler.remove_feature(X, removed_features=removed_features)
             X_train, X_test, y_train, y_test = self.data_handler.load_and_split(
                 random_state=rs, X=X, y=y
             )
