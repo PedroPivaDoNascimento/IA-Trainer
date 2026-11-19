@@ -6,6 +6,7 @@ from sklearn.linear_model import LinearRegression
 
 from sklearn.decomposition import PCA
 from sklearn.linear_model import Ridge
+from sklearn.svm import SVR
 
 from controllers.training_controller import TrainingController
 from sklearn.neural_network import MLPClassifier
@@ -17,9 +18,8 @@ if __name__ == "__main__":
     warnings.filterwarnings("ignore")
 
     #Parametros específicos para o KNN
-    #dict_params = {'clf': [Ridge()], 'clf__alpha': [0.3], 'clf__fit_intercept': [True], 'reducao': ['passthrough'], 'scaler': [StandardScaler()]}
-
-    dict_params = None
+    dict_params = {'clf': [Ridge()], 'clf__alpha': [0.9], 'clf__fit_intercept': [True], 'reducao': ['passthrough'], 'scaler': [RobustScaler(quantile_range=(30, 70))]}
+    #dict_params = None
 
     # Definição de caminhos para planilhas
     DATA_PATH = "./planilhas/João/dados_novos/Machine learning ganhos de forca (FIM POS).xlsx"
@@ -31,7 +31,7 @@ if __name__ == "__main__":
     controller = TrainingController(    
         data_path=DATA_PATH,
         metric_focus=METRIC_FOCO,
-        iterations=10,
+        iterations=1,
         dict_params=dict_params
     )
     #controller.run_data_analysis()
