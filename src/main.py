@@ -17,7 +17,7 @@ import warnings
 if __name__ == "__main__":
     warnings.filterwarnings("ignore")
     #dict_params = None
-    dict_params = {'clf': [GradientBoostingRegressor(random_state=42)], 'clf__learning_rate': [0.125], 'clf__loss': ['absolute_error'], 'clf__max_depth': [4], 'clf__n_estimators': [125], 'reducao': ['passthrough'], 'scaler': [None]}
+    dict_params = {'clf': [Ridge()], 'clf__alpha': [0.9], 'clf__fit_intercept': [True], 'reducao': ['passthrough'], 'scaler': [RobustScaler(quantile_range=(30, 70))]}
 
 
     # Definição de caminhos para planilhas

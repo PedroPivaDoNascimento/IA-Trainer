@@ -33,7 +33,7 @@ class DataReport:
         plt.legend(handles=legend_elements, loc='lower right')
 
         plt.title('Impacto da Feature vs. Comportamento Estatístico')
-        plt.xlabel('Queda na Acurácia se a Feature for Removida (Permutation Importance)')
+        plt.xlabel('Queda Média no R² (Importância por Permutação)')
         plt.ylabel('Features')
         plt.gca().invert_yaxis()  # Mantém a maior queda (mais importante) no topo
         plt.grid(axis='x', linestyle=':', alpha=0.6)
