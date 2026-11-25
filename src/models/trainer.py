@@ -21,7 +21,8 @@ class Trainer:
         Inicializa o treinador.
 
         Args:
-            metric_focus: Métrica alvo para otimização (ex: 'f1_score', 'recall').
+            metric_focus: Métrica alvo para otimização
+                (ex: 'f1_score', 'recall', 'balanced_accuracy').
         """
         self.metric_focus = metric_focus
         self.param_grid = dict_params if dict_params is not None else ModelConfig.get_param_grid()        

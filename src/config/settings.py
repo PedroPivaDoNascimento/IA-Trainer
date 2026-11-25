@@ -12,6 +12,7 @@ MCC_SCORER = make_scorer(matthews_corrcoef)
 METRIC_SCORING_MAP = {
     "f1_score": "f1",
     "accuracy": "accuracy",
+    "balanced_accuracy": "balanced_accuracy",
     "precision": "precision",
     "recall": "recall",
     "roc_auc": "roc_auc",
@@ -21,6 +22,10 @@ METRIC_SCORING_MAP = {
 SCORING_PIPELINE_MAP = {
     "f1": "f1",
     "accuracy": "accuracy",
+    # Acurácia balanceada: média entre sensibilidade (recall da classe positiva)
+    # e especificidade (recall da classe negativa). É uma string de scoring
+    # nativa do scikit-learn ('sklearn.metrics.get_scoring_methods').
+    "balanced_accuracy": "balanced_accuracy",
     "precision": "precision",
     "recall": "recall",
     "roc_auc": "roc_auc",
@@ -31,6 +36,7 @@ SCORING_PIPELINE_MAP = {
 STD_MAP = {
     "f1_score": "std_test_f1",
     "accuracy": "std_test_accuracy",
+    "balanced_accuracy": "std_test_balanced_accuracy",
     "precision": "std_test_precision",
     "recall": "std_test_recall",
     "roc_auc": "std_test_roc_auc",
