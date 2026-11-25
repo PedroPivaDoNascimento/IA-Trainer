@@ -4,7 +4,12 @@ Processamento de métricas e relatórios.
 import re
 from typing import Dict, List, Tuple
 import numpy as np
-from sklearn.metrics import classification_report, roc_auc_score, matthews_corrcoef
+from sklearn.metrics import (
+    classification_report,
+    roc_auc_score,
+    matthews_corrcoef,
+    balanced_accuracy_score,
+)
 from config.settings import STD_MAP, CLASS_NAMES
 
 
@@ -12,6 +17,11 @@ class MetricsHandler:
     """Calcula e agrega métricas de desempenho do modelo."""
 
     def __init__(self, metric_focus: str) -> None:
+        if metric_focus not in STD_MAP:
+            raise ValueError(
+                f"Métrica foco inválida: '{metric_focus}'. "
+                f"Opções válidas: {sorted(STD_MAP.keys())}"
+            )
         self.metric_focus = metric_focus
         self.std_key = STD_MAP[metric_focus]
 
@@ -37,10 +47,15 @@ class MetricsHandler:
         # seguindo a mesma lógica usada para o F1-Score na avaliação final.
         mcc = matthews_corrcoef(y_test, y_pred)
         report += f"MCC: {mcc:.2f}\n"
+        # Acurácia balanceada no conjunto de teste: média entre sensibilidade
+        # (recall da classe positiva) e especificidade (recall da classe negativa).
+        bal_acc = balanced_accuracy_score(y_test, y_pred)
+        report += f"Balanced Accuracy: {bal_acc:.2f}\n"
 
         idx = grid.best_index_
         cv_metrics = {
             "accuracy": grid.cv_results_["mean_test_accuracy"][idx] * 100,
+            "balanced_accuracy": grid.cv_results_["mean_test_balanced_accuracy"][idx] * 100,
             "f1_score": grid.cv_results_["mean_test_f1"][idx] * 100,
             "precision": grid.cv_results_["mean_test_precision"][idx] * 100,
             "recall": grid.cv_results_["mean_test_recall"][idx] * 100,
@@ -98,7 +113,8 @@ class MetricsHandler:
             "macro avg": {"p": [], "r": [], "f": [], "s": []},
             "weighted avg": {"p": [], "r": [], "f": [], "s": []},
             "roc_auc": [],
-            "mcc": []
+            "mcc": [],
+            "balanced_accuracy": []
         })
 
         # Pegando cada report na lista de todos os reports
@@ -138,6 +154,11 @@ class MetricsHandler:
                     if len(nums) == 1:
                         accumulator["mcc"].append(nums[0])
 
+                if "Balanced Accuracy:" in line:
+                    nums = self.extract_last_numbers(line, 1)
+                    if len(nums) == 1:
+                        accumulator["balanced_accuracy"].append(nums[0])
+
         def safe_mean(lst: list) -> float:
             return sum(lst) / len(lst) if lst else 0.0
 
@@ -167,5 +188,9 @@ class MetricsHandler:
             output.append(f"ROC AUC: {safe_mean(accumulator['roc_auc']):.2f}")
         if accumulator["mcc"]:
             output.append(f"MCC: {safe_mean(accumulator['mcc']):.2f}")
+        if accumulator["balanced_accuracy"]:
+            output.append(
+                f"Balanced Accuracy: {safe_mean(accumulator['balanced_accuracy']):.2f}"
+            )
 
         return "\n".join(output)
