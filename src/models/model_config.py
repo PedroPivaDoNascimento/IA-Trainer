@@ -26,13 +26,13 @@ class ModelConfig:
         return [
             StandardScaler(),
             RobustScaler(),
-            MinMaxScaler(),
-            MaxAbsScaler(),
-            QuantileTransformer(output_distribution="uniform", random_state=42),
+            #MinMaxScaler(),
+            #MaxAbsScaler(),
+            #QuantileTransformer(output_distribution="uniform", random_state=42),
             #QuantileTransformer(output_distribution="normal", random_state=42),
             #PowerTransformer(method="yeo-johnson"),
-            Normalizer(norm="l2"),
-            None,
+            #Normalizer(norm="l2"),
+            #None,
 
             #RobustScaler(),
             #RobustScaler(quantile_range=(20, 80)),
@@ -48,7 +48,7 @@ class ModelConfig:
             "passthrough",
             PCA(n_components=0.90, random_state=31),
             PCA(n_components=0.95, random_state=31),
-            #PCA(n_components=0.99, random_state=31),
+            PCA(n_components=0.99, random_state=31),
             #SelectKBest(score_func=f_classif, k="all")
         ]
 
@@ -123,16 +123,16 @@ class ModelConfig:
              #        0.00005
              #    ]
              #},
-            #{
-            #    "clf": [SVC(random_state=42, class_weight="balanced")],
-            #    #"clf__C": [0.1, 1, 5, 10, 50, 100],
-            #    "clf__C": [2.5, 5, 7.5],
-            #    #"clf__kernel": ["rbf", "poly"],
-            #    "clf__kernel": ["rbf", "linear", "sigmoid"], #"precomputed", "cosine", "laplacian", "chi2", "additive_chi2"],
-            #    "clf__gamma": ["auto", 0.01, 1],
-            #    "scaler": scalers,
-            #    "reducao": reducoes,
-            #},
+            {
+                "clf": [SVC(random_state=42, class_weight="balanced")],
+                #"clf__C": [0.1, 1, 5, 10, 50, 100],
+                "clf__C": [1.5, 2.5, 3,5,],
+                "clf__kernel": ["rbf"],
+                #"clf__kernel": ["rbf", "linear", "sigmoid"], #"precomputed", "cosine", "laplacian", "chi2", "additive_chi2"],
+                "clf__gamma": ["auto"],
+                "scaler": scalers,
+                "reducao": reducoes,
+            },
             #{
             #    "clf": [LinearSVC(random_state=42, class_weight="balanced")],
             #    "clf__max_iter": [1000, 2000],

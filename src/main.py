@@ -13,12 +13,12 @@ import warnings
 if __name__ == "__main__":
     warnings.filterwarnings("ignore")
     dict_params = {}
-
+    #dict_params = {'clf': [SVC(class_weight='balanced', random_state=42)], 'clf__C': [2.5], 'clf__degree': [3], 'clf__gamma': ['auto'], 'clf__kernel': ['rbf'], 'reducao': [PCA(n_components=0.95, random_state=31)], 'scaler': [StandardScaler()]}
     # Definição de caminhos para planilhas
     DATA_PATH = "./planilhas/Agachamento_Unipodal/dados_treinamento_quadril_direito.xlsx"
 
     # Métrica alvo: 'f1_score', 'accuracy', 'balanced_accuracy', 'precision','recall', 'roc_auc' ou 'mcc'
-    METRIC_FOCO = "balanced_accuracy"
+    METRIC_FOCO = "f1_score"
 
     # Inicializa e executa o controlador
     controller = TrainingController(
@@ -27,5 +27,5 @@ if __name__ == "__main__":
         iterations=10,
         dict_params=dict_params
     )
-    #controller.run_data_analysis()
-    controller.run()
+    controller.run_data_analysis()
+    #controller.run()
